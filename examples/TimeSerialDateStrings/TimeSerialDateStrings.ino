@@ -7,10 +7,10 @@
  *
  * A message starting with a time header sets the time
  * A Processing example sketch to automatically send the messages is inclided in the download
- * On Linux, you can use "date +T%s > /dev/ttyACM0" (UTC time zone)
+ * On Linux, you can use "date +T%s\n > /dev/ttyACM0" (UTC time zone)
  *
  * A message starting with a format header sets the date format
- *
+
  * send: Fs\n for short date format
  * send: Fl\n for long date format 
  */ 
@@ -35,7 +35,7 @@ void setup()  {
 }
 
 void loop(){    
-  if (Serial.available()) {
+  if (Serial.available() > 1) { // wait for at least two characters
     char c = Serial.read();
     if( c == TIME_HEADER) {
       processSyncMessage();
@@ -50,7 +50,7 @@ void loop(){
   delay(1000);
 }
 
-void digitalClockDisplay(){
+void digitalClockDisplay() {
   // digital clock display of the time
   Serial.print(hour());
   printDigits(minute());
@@ -72,7 +72,7 @@ void digitalClockDisplay(){
   Serial.println(); 
 }
 
-void printDigits(int digits){
+void printDigits(int digits) {
   // utility function for digital clock display: prints preceding colon and leading 0
   Serial.print(":");
   if(digits < 10)
@@ -84,11 +84,11 @@ void  processFormatMessage() {
    char c = Serial.read();
    if( c == FORMAT_LONG){
       isLongFormat = true;
-      Serial.println("Setting long format");
+      Serial.println(F("Setting long format"));
    }
-   else if( c == FORMAT_SHORT){
+   else if( c == FORMAT_SHORT) {
       isLongFormat = false;   
-      Serial.println("Setting short format");
+      Serial.println(F("Setting short format"));
    }
 }
 
@@ -99,12 +99,10 @@ void processSyncMessage() {
    pctime = Serial.parseInt();
    if( pctime >= DEFAULT_TIME) { // check the integer is a valid time (greater than Jan 1 2013)
      setTime(pctime); // Sync Arduino clock to the time received on the serial port
-   } 
+   }
 }
 
-time_t requestSync()
-{
+time_t requestSync() {
   Serial.write(TIME_REQUEST);  
   return 0; // the time will be sent later in response to serial mesg
 }
-

@@ -1,6 +1,6 @@
 /*
   time.c - low level time and date functions
-  Copyright (c) Michael Margolis 2009
+  Copyright (c) Michael Margolis 2009-2014
 
   This library is free software; you can redistribute it and/or
   modify it under the terms of the GNU Lesser General Public
@@ -16,14 +16,15 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
   
-  6  Jan 2010 - initial release 
-  12 Feb 2010 - fixed leap year calculation error
-  1  Nov 2010 - fixed setTime bug (thanks to Korman for this)
-  24 Mar 2012 - many edits by Paul Stoffregen: fixed timeStatus() to update
-                status, updated examples for Arduino 1.0, fixed ARM
-                compatibility issues, added TimeArduinoDue and TimeTeensy3
-                examples, add error checking and messages to RTC examples,
-                add examples to DS1307RTC library.
+  1.0  6  Jan 2010 - initial release
+  1.1  12 Feb 2010 - fixed leap year calculation error
+  1.2  1  Nov 2010 - fixed setTime bug (thanks to Korman for this)
+  1.3  24 Mar 2012 - many edits by Paul Stoffregen: fixed timeStatus() to update
+                     status, updated examples for Arduino 1.0, fixed ARM
+                     compatibility issues, added TimeArduinoDue and TimeTeensy3
+                     examples, add error checking and messages to RTC examples,
+                     add examples to DS1307RTC library.
+  1.4  5  Sep 2014 - compatibility with Arduino 1.5.7
 */
 
 #if ARDUINO >= 100

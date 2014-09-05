@@ -1,6 +1,8 @@
 /* DateStrings.cpp
  * Definitions for date strings for use with the Time library
  *
+ * Updated for Arduino 1.5.7 18 July 2014
+ *
  * No memory is consumed in the sketch if your code does not call any of the string methods
  * You can change the text of the strings, make sure the short strings are each exactly 3 characters 
  * the long strings can be any length up to the constant dt_MAX_STRING_LEN defined in Time.h
@@ -38,7 +40,7 @@ const char monthStr10[] PROGMEM = "October";
 const char monthStr11[] PROGMEM = "November";
 const char monthStr12[] PROGMEM = "December";
 
-PGM_P monthNames_P[] PROGMEM = 
+const PROGMEM char * const PROGMEM monthNames_P[]
 {
     "",monthStr1,monthStr2,monthStr3,monthStr4,monthStr5,monthStr6,
 	monthStr7,monthStr8,monthStr9,monthStr10,monthStr11,monthStr12
@@ -55,8 +57,12 @@ const char dayStr5[] PROGMEM = "Thursday";
 const char dayStr6[] PROGMEM = "Friday";
 const char dayStr7[] PROGMEM = "Saturday";
 
-PGM_P dayNames_P[] PROGMEM = { dayStr0,dayStr1,dayStr2,dayStr3,dayStr4,dayStr5,dayStr6,dayStr7};
-char dayShortNames_P[] PROGMEM = "ErrSunMonTueWedThrFriSat";
+const PROGMEM char * const PROGMEM dayNames_P[] =
+{
+   dayStr0,dayStr1,dayStr2,dayStr3,dayStr4,dayStr5,dayStr6,dayStr7
+};
+
+const char dayShortNames_P[] PROGMEM = "ErrSunMonTueWedThrFriSat";
 
 /* functions to return date strings */
 

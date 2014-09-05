@@ -26,6 +26,8 @@ void setup()  {
     // stay with their old values."
     rtc_clock.set_time(__TIME__);
     rtc_clock.set_date(__DATE__);
+    // However, this might work on other unofficial SAM3X boards
+    // with different reset circuitry than Arduino Due?
   }
   setSyncProvider(getArduinoDueTime);
   if(timeStatus()!= timeSet) 

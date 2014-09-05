@@ -7,7 +7,7 @@
  T1357041600  
  *
  * A Processing example sketch to automatically send the messages is inclided in the download
- * On Linux, you can use "date +T%s > /dev/ttyACM0" (UTC time zone)
+ * On Linux, you can use "date +T%s\n > /dev/ttyACM0" (UTC time zone)
  */ 
  
 #include <Time.h>  
