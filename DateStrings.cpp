@@ -27,6 +27,7 @@
 
 static char buffer[dt_MAX_STRING_LEN+1];  // must be big enough for longest string and the terminating null
 
+const char monthStr0[] PROGMEM = "";
 const char monthStr1[] PROGMEM = "January";
 const char monthStr2[] PROGMEM = "February";
 const char monthStr3[] PROGMEM = "March";
@@ -40,10 +41,10 @@ const char monthStr10[] PROGMEM = "October";
 const char monthStr11[] PROGMEM = "November";
 const char monthStr12[] PROGMEM = "December";
 
-const PROGMEM char * const PROGMEM monthNames_P[]
+const PROGMEM char * const PROGMEM monthNames_P[] =
 {
-    "",monthStr1,monthStr2,monthStr3,monthStr4,monthStr5,monthStr6,
-	monthStr7,monthStr8,monthStr9,monthStr10,monthStr11,monthStr12
+    monthStr0,monthStr1,monthStr2,monthStr3,monthStr4,monthStr5,monthStr6,
+    monthStr7,monthStr8,monthStr9,monthStr10,monthStr11,monthStr12
 };
 
 const char monthShortNames_P[] PROGMEM = "ErrJanFebMarAprMayJunJulAugSepOctNovDec";
@@ -69,7 +70,7 @@ const char dayShortNames_P[] PROGMEM = "ErrSunMonTueWedThrFriSat";
 char* monthStr(uint8_t month)
 {
     strcpy_P(buffer, (PGM_P)pgm_read_word(&(monthNames_P[month])));
-	return buffer;
+    return buffer;
 }
 
 char* monthShortStr(uint8_t month)
