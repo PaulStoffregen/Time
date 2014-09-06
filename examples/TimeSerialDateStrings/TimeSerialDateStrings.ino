@@ -67,45 +67,16 @@ void loop(){
 
 void digitalClockDisplay() {
   // digital clock display of the time
-  if(farmatMessage==l){
-    Serial.print(dayStr(weekday()));
-    Serial.print(" ");
-    Serial.print(day());
-    Serial.print(" ");
-    Serial.print(monthStr(month()));
-    Serial.print(" ");
-    Serial.print(year());
-    Serial.print(" ");
+  if(formatMessage==l){
+    longStrFormat_Display();
   }
-  else if(farmatMessage==s){
-    Serial.print(dayShortStr(weekday()));
-    Serial.print(" ");
-    Serial.print(day());
-    Serial.print(" ");
-    Serial.print(monthShortStr(month()));
-    Serial.print(" ");
-    Serial.print(year());
-    Serial.print(" ");
+  else if(formatMessage==s){
+    shortStrFormat_Display();
   }else{
-    Serial.print(year());
-    Serial.print("-");
-    Serial.print(month());
-    Serial.print("-");
-    Serial.print(day());
-    Serial.print("T");
+    utcFormat_Display();
   }
-  Serial.print(hour());
-  printDigits(minute());
-  printDigits(second());
-  Serial.println("");
-}
 
-void printDigits(int digits) {
-  // utility function for digital clock display: prints preceding colon and leading 0
-  Serial.print(":");
-  if(digits < 10)
-    Serial.print('0');
-  Serial.print(digits);
+  Serial.println("");
 }
 
 void  processFormatMessage() {

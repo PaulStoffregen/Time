@@ -138,6 +138,13 @@ void    setSyncInterval(time_t interval); // set the number of seconds between r
 void breakTime(time_t time, tmElements_t &tm);  // break time_t into elements
 time_t makeTime(tmElements_t &tm);  // convert time elements into time_t
 
+
+void timeComplete_Display();
+void utcFormat_Display();
+void longStrFormat_Display();
+void shortStrFormat_Display();
+void printDigits(int digits);
+
 } // extern "C++"
 #endif // __cplusplus
 #endif /* _Time_h */
