@@ -39,7 +39,7 @@ enum FORMAT {
   u
 };
 
-FORMAT farmatMessage= u;
+FORMAT formatMessage = u;
 
 void setup()  {
   Serial.begin(9600);
@@ -111,15 +111,15 @@ void printDigits(int digits) {
 void  processFormatMessage() {
    char c = Serial.read();
    if( c == FORMAT_LONG){
-      farmatMessage = l;
+      formatMessage = l;
       Serial.println(F("Setting long format"));
    }
    else if( c == FORMAT_SHORT) {
-      farmatMessage = s;   
+      formatMessage = s;   
       Serial.println(F("Setting short format"));
    }
    else if( c == FORMAT_UTC) {
-     farmatMessage = u;
+      formatMessage = u;
       Serial.println(F("Setting UTC format"));
    }
 }
