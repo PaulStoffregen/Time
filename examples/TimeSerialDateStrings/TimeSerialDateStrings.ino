@@ -12,7 +12,14 @@
  * A message starting with a format header sets the date format
 
  * send: Fs\n for short date format
- * send: Fl\n for long date format 
+ * send: Fl\n for long date format
+ * send: Fu\n for UTC date format
+ * 
+ * Changes:
+ *   - [2014-9-6, Domenico Monaco, hack@kiuz.it]
+ *     - Added UTC format
+ *     - Changed method to switch "format" from single boolena to ENUM variable
+ *
  */ 
  
 #include <Time.h>  
@@ -22,10 +29,17 @@
 #define FORMAT_HEADER 'F'   // Header tag indicating a date format message
 #define FORMAT_SHORT  's'   // short month and day strings
 #define FORMAT_LONG   'l'   // (lower case l) long month and day strings
+#define FORMAT_UTC    'u'
 
 #define TIME_REQUEST  7     // ASCII bell character requests a time sync message 
 
-static boolean isLongFormat = true;
+enum FORMAT {
+  l,
+  s,
+  u
+};
+
+FORMAT farmatMessage= u;
 
 void setup()  {
   Serial.begin(9600);
@@ -40,7 +54,9 @@ void loop(){
     if( c == TIME_HEADER) {
       processSyncMessage();
     }
-    else if( c== FORMAT_HEADER) {
+    else if( c== FORMAT_HEADER)
+    {
+      Serial.println("leggo FORMAT");
       processFormatMessage();
     }
   }
@@ -52,24 +68,37 @@ void loop(){
 
 void digitalClockDisplay() {
   // digital clock display of the time
+  if(farmatMessage==l){
+    Serial.print(dayStr(weekday()));
+    Serial.print(" ");
+    Serial.print(day());
+    Serial.print(" ");
+    Serial.print(monthStr(month()));
+    Serial.print(" ");
+    Serial.print(year());
+    Serial.print(" ");
+  }
+  else if(farmatMessage==s){
+    Serial.print(dayShortStr(weekday()));
+    Serial.print(" ");
+    Serial.print(day());
+    Serial.print(" ");
+    Serial.print(monthShortStr(month()));
+    Serial.print(" ");
+    Serial.print(year());
+    Serial.print(" ");
+  }else{
+    Serial.print(year());
+    Serial.print("-");
+    Serial.print(month());
+    Serial.print("-");
+    Serial.print(day());
+    Serial.print("T");
+  }
   Serial.print(hour());
   printDigits(minute());
   printDigits(second());
-  Serial.print(" ");
-  if(isLongFormat)
-    Serial.print(dayStr(weekday()));
-  else  
-   Serial.print(dayShortStr(weekday()));
-  Serial.print(" ");
-  Serial.print(day());
-  Serial.print(" ");
-  if(isLongFormat)
-     Serial.print(monthStr(month()));
-  else
-     Serial.print(monthShortStr(month()));
-  Serial.print(" ");
-  Serial.print(year()); 
-  Serial.println(); 
+  Serial.println("");
 }
 
 void printDigits(int digits) {
@@ -83,12 +112,16 @@ void printDigits(int digits) {
 void  processFormatMessage() {
    char c = Serial.read();
    if( c == FORMAT_LONG){
-      isLongFormat = true;
+      farmatMessage = l;
       Serial.println(F("Setting long format"));
    }
    else if( c == FORMAT_SHORT) {
-      isLongFormat = false;   
+      farmatMessage = s;   
       Serial.println(F("Setting short format"));
+   }
+   else if( c == FORMAT_UTC) {
+     farmatMessage = u;
+      Serial.println(F("Setting UTC format"));
    }
 }
 
