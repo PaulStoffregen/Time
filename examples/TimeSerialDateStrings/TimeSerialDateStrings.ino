@@ -56,7 +56,6 @@ void loop(){
     }
     else if( c== FORMAT_HEADER)
     {
-      Serial.println("leggo FORMAT");
       processFormatMessage();
     }
   }
