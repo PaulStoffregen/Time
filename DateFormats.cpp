@@ -14,8 +14,24 @@
 #include <WProgram.h> 
 #endif
 
+#include <string>
+#include <Arduino.h>
+
 #include <string.h> // for strcpy_P or strcpy
 #include "Time.h"
+
+static char buffer[dt_MAX_STRING_LEN+1];
+
+/**
+ * Disaply complete date with 'yyy-mm-dd' format
+ */
+void dateComplete_Display(){
+  Serial.print(year());
+  Serial.print("-");
+  printDigits(month());
+  Serial.print("-");
+  printDigits(day());
+}
 
 /**
  * Disaply complete time with 'hh:mm:ss' format
@@ -33,14 +49,37 @@ void timeComplete_Display(){
  * info: http://www.w3.org/TR/NOTE-datetime
  */
 void utcFormat_Display(){
-	Serial.print(year());
-	Serial.print("-");
-  printDigits(month());
-	Serial.print("-");
-  printDigits(day());
+  dateComplete_Display();
 	Serial.print("T");
-
 	timeComplete_Display();
+}
+
+char* UTC(){
+  return UTC("T");
+}
+
+char* UTC(char* TimeSep){
+
+  String utcDate = "";
+
+  utcDate+= year();
+  utcDate+= "-";
+  utcDate+= month();
+  utcDate+= "-";
+  utcDate+= day();
+  utcDate+= TimeSep;
+  utcDate+= (hour());
+  utcDate+= (":");
+  utcDate+= (minute());
+  utcDate+= (":");
+  utcDate+= (second());
+
+  const char* out = utcDate.c_str();
+
+  char *cstr = new char[utcDate.length() + 1];
+  strcpy(cstr, utcDate.c_str());
+  return cstr;
+
 }
 
 /**
@@ -85,3 +124,4 @@ void printDigits(int digits) {
     Serial.print('0');
   Serial.print(digits);
 }
+

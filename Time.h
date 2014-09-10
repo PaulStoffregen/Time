@@ -21,6 +21,8 @@
 typedef unsigned long time_t;
 #endif
 
+#include <string>
+#include <Arduino.h>
 
 // This ugly hack allows us to define C++ overloaded functions, when included
 // from within an extern "C", as newlib's sys/stat.h does.  Actually it is
@@ -145,7 +147,13 @@ void longStrFormat_Display();
 void shortStrFormat_Display();
 void printDigits(int digits);
 
+char* UTC();
+char* UTC(char* TimeSep);
+
+    
 } // extern "C++"
 #endif // __cplusplus
 #endif /* _Time_h */
+
+
 
