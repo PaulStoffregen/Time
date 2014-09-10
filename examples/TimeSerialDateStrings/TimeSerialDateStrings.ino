@@ -12,7 +12,14 @@
  * A message starting with a format header sets the date format
 
  * send: Fs\n for short date format
- * send: Fl\n for long date format 
+ * send: Fl\n for long date format
+ * send: Fu\n for UTC date format
+ * 
+ * Changes:
+ *   - [2014-9-6, Domenico Monaco, hack@kiuz.it]
+ *     - Added UTC format
+ *     - Changed method to switch "format" from single boolena to ENUM variable
+ *
  */ 
  
 #include <Time.h>  
@@ -22,10 +29,17 @@
 #define FORMAT_HEADER 'F'   // Header tag indicating a date format message
 #define FORMAT_SHORT  's'   // short month and day strings
 #define FORMAT_LONG   'l'   // (lower case l) long month and day strings
+#define FORMAT_UTC    'u'
 
 #define TIME_REQUEST  7     // ASCII bell character requests a time sync message 
 
-static boolean isLongFormat = true;
+enum FORMAT {
+  l,
+  s,
+  u
+};
+
+FORMAT formatMessage = u;
 
 void setup()  {
   Serial.begin(9600);
@@ -40,7 +54,8 @@ void loop(){
     if( c == TIME_HEADER) {
       processSyncMessage();
     }
-    else if( c== FORMAT_HEADER) {
+    else if( c== FORMAT_HEADER)
+    {
       processFormatMessage();
     }
   }
@@ -52,43 +67,31 @@ void loop(){
 
 void digitalClockDisplay() {
   // digital clock display of the time
-  Serial.print(hour());
-  printDigits(minute());
-  printDigits(second());
-  Serial.print(" ");
-  if(isLongFormat)
-    Serial.print(dayStr(weekday()));
-  else  
-   Serial.print(dayShortStr(weekday()));
-  Serial.print(" ");
-  Serial.print(day());
-  Serial.print(" ");
-  if(isLongFormat)
-     Serial.print(monthStr(month()));
-  else
-     Serial.print(monthShortStr(month()));
-  Serial.print(" ");
-  Serial.print(year()); 
-  Serial.println(); 
-}
+  if(formatMessage==l){
+    longStrFormat_Display();
+  }
+  else if(formatMessage==s){
+    shortStrFormat_Display();
+  }else{
+    utcFormat_Display();
+  }
 
-void printDigits(int digits) {
-  // utility function for digital clock display: prints preceding colon and leading 0
-  Serial.print(":");
-  if(digits < 10)
-    Serial.print('0');
-  Serial.print(digits);
+  Serial.println("");
 }
 
 void  processFormatMessage() {
    char c = Serial.read();
    if( c == FORMAT_LONG){
-      isLongFormat = true;
+      formatMessage = l;
       Serial.println(F("Setting long format"));
    }
    else if( c == FORMAT_SHORT) {
-      isLongFormat = false;   
+      formatMessage = s;   
       Serial.println(F("Setting short format"));
+   }
+   else if( c == FORMAT_UTC) {
+      formatMessage = u;
+      Serial.println(F("Setting UTC format"));
    }
 }
 
