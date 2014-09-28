@@ -1,0 +1,10 @@
+{
+  "name": "Arduino-Time",
+  "keywords": "time",
+  "description": "Time is a library that provides timekeeping functionality for Arduino",
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/PaulStoffregen/Time.git"
+  }
+}
