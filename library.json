@@ -1,0 +1,12 @@
+{
+  "name": "Time",
+  "keywords": "time",
+  "description": "Time is a library that provides timekeeping functionality",
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/PaulStoffregen/Time.git"
+  },
+  "frameworks": "arduino",
+  "platforms": "atmelavr"
+}
