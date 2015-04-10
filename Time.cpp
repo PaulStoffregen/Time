@@ -248,9 +248,9 @@ time_t sysUnsyncedTime = 0; // the time sysTime unadjusted by sync
 
 
 time_t now() {
-	// calculate number of seconds passed since last call to now()
+  // calculate number of seconds passed since last call to now()
   while (millis() - prevMillis >= 1000) {
-		// millis() and prevMillis are both unsigned ints thus the subtraction will always be the absolute value of the difference
+    // millis() and prevMillis are both unsigned ints thus the subtraction will always be the absolute value of the difference
     sysTime++;
     prevMillis += 1000;	
 #ifdef TIME_DRIFT_INFO
@@ -262,9 +262,13 @@ time_t now() {
       time_t t = getTimePtr();
       if (t != 0) {
         setTime(t);
+      } else if(timeNotSet == Status) {
+        // getTimePtr returned 0 and time has not yet been set, i.e. this was not
+        // a temporarily failure, we have not been able to sync at all.
+        // Do nothing so a new attempt to sync will be made next time now() is called.
       } else {
         nextSyncTime = sysTime + syncInterval;
-        Status = (Status == timeNotSet) ?  timeNotSet : timeNeedsSync;
+        Status = timeNeedsSync;
       }
     }
   }  
