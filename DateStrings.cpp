@@ -63,7 +63,7 @@ const PROGMEM char * const PROGMEM dayNames_P[] =
    dayStr0,dayStr1,dayStr2,dayStr3,dayStr4,dayStr5,dayStr6,dayStr7
 };
 
-const char dayShortNames_P[] PROGMEM = "ErrSunMonTueWedThrFriSat";
+const char dayShortNames_P[] PROGMEM = "ErrSunMonTueWedThuFriSat";
 
 /* functions to return date strings */
 
