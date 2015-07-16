@@ -237,6 +237,7 @@ time_t makeTime(tmElements_t &tm){
 static uint32_t sysTime = 0;
 static uint32_t prevMillis = 0;
 static uint32_t nextSyncTime = 0;
+static uint32_t lastSyncTime = 0;
 static timeStatus_t Status = timeNotSet;
 
 getExternalTime getTimePtr;  // pointer to external sync function
@@ -281,7 +282,8 @@ void setTime(time_t t) {
    sysUnsyncedTime = t;   // store the time of the first call to set a valid Time   
 #endif
 
-  sysTime = (uint32_t)t;  
+  sysTime = (uint32_t)t;
+	lastSyncTime = (uint32_t)t;
   nextSyncTime = (uint32_t)t + syncInterval;
   Status = timeSet;
   prevMillis = millis();  // restart counting from now (thanks to Korman for this fix)
@@ -322,4 +324,8 @@ void setSyncProvider( getExternalTime getTimeFunction){
 void setSyncInterval(time_t interval){ // set the number of seconds between re-sync
   syncInterval = (uint32_t)interval;
   nextSyncTime = sysTime + syncInterval;
+}
+
+time_t getLastSyncTime(){
+	return (time_t)lastSyncTime;
 }
