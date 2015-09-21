@@ -58,7 +58,8 @@ typedef struct  {
 #define  tmYearToY2k(Y)      ((Y) - 30)    // offset is from 2000
 #define  y2kYearToTm(Y)      ((Y) + 30)   
 
-typedef time_t(*getExternalTime)();
+typedef time_t(*getExternalTime)(); // Old style sync callback
+typedef time_t(*getExternalTimeEx)(void *userParm); // New style sync callback
 //typedef void  (*setExternalTime)(const time_t); // not used in this version
 
 
@@ -132,6 +133,7 @@ char* dayShortStr(uint8_t day);
 /* time sync functions	*/
 timeStatus_t timeStatus(); // indicates if time has been set and recently synchronized
 void    setSyncProvider( getExternalTime getTimeFunction); // identify the external time provider
+void    setSyncProvider( getExternalTimeEx getTimeFunction, void *userParm); // identify the external time provider
 void    setSyncInterval(time_t interval); // set the number of seconds between re-sync
 
 /* low level functions to convert to and from system time                     */
