@@ -1,5 +1,4 @@
-Readme file for Arduino Time Library
-
+# What is "Time"?
 Time is a library that provides timekeeping functionality for Arduino.
 
 The code is derived from the Playground DateTime library but is updated
@@ -12,47 +11,61 @@ Example sketches illustrate how similar sketch code can be used with: a Real Tim
 internet NTP time service, GPS time data, and Serial time messages from a computer
 for time synchronization.
 
-The functions available in the library include:
+## Installation
 
-hour();            // the hour now  (0-23)
-minute();          // the minute now (0-59)          
-second();          // the second now (0-59) 
-day();             // the day now (1-31)
-weekday();         // day of the week, Sunday is day 0 
-month();           // the month now (1-12)
-year();            // the full four digit year: (2009, 2010 etc) 
+1. [Download](https://github.com/DmitryAnokhin/Time/archive/master.zip) the Latest release from gitHub.
+2. Unzip and rename the Folder name to "Time"
+3. Paste the modified folder on your Library folder (On your `Libraries` folder inside Sketchbooks or Arduino software).
+4. Reopen the Arduino software.
 
-there are also functions to return the hour in 12 hour format
-hourFormat12();    // the hour now in 12 hour format
-isAM();            // returns true if time now is AM 
-isPM();            // returns true if time now is PM
+## Library Reference
+The functions available in the library includes:
 
-now();             // returns the current time as seconds since Jan 1 1970 
+- `now()` `unsigned long` - Current millisecond since Jan 1 1970
+
+- `hour()` `int` - The hour now (0-23)
+- `minute()` `int` - The minute now (0-59)
+- `second()` `int` - The second now (0-59)
+- `day()` `int` - The day now (1-31)
+- `weekday()` `int` - The day of the week. Sunday is 0
+- `month()` `int` - The month now (1-12)
+- `year()` `int` - The full four digit year (2009, 2010, etc)
+
+- `hourFormat12()` `int` - The hour in 12 format
+- `isAM()` `uint8_t` - Returns if is AM (`true` or `false`)
+- `isPM()` `uint8_t` - Returns if is PM (`true` or `false`)
+
+## Using functions with custom time
 
 The time and date functions can take an optional parameter for the time. This prevents
 errors if the time rolls over between elements. For example, if a new minute begins
 between getting the minute and second, the values will be inconsistent. Using the 
-following functions eliminates this probglem 
-  time_t t = now(); // store the current time in time variable t 
-  hour(t);          // returns the hour for the given time t
-  minute(t);        // returns the minute for the given time t
-  second(t);        // returns the second for the given time t 
-  day(t);           // the day for the given time t 
-  weekday(t);       // day of the week for the given time t  
-  month(t);         // the month for the given time t 
-  year(t);          // the year for the given time t  
-  
-  
-Functions for managing the timer services are:  
-setTime(t);             // set the system time to the give time t
-setTime(hr,min,sec,day,mnth,yr); // alternative to above, yr is 2 or 4 digit yr (2010 or 10 sets year to 2010)
-adjustTime(adjustment); // adjust system time by adding the adjustment value
+following functions eliminates this problem.
+```c++
+time_t t = now(); // store the current time in time variable t 
+hour(t);          // returns the hour for the given time t
+minute(t);        // returns the minute for the given time t
+second(t);        // returns the second for the given time t 
+day(t);           // the day for the given time t 
+weekday(t);       // day of the week for the given time t  
+month(t);         // the month for the given time t 
+year(t);          // the year for the given time t  
+```
 
-timeStatus();       // indicates if time has been set and recently synchronized
-                    // returns one of the following enumerations:
-    timeNotSet      // the time has never been set, the clock started at Jan 1 1970
-    timeNeedsSync   // the time had been set but a sync attempt did not succeed
-    timeSet         // the time is set and is synced
+## Adjusting Time
+
+- `setTime(unsigned long t)` - Set the system time to the give time t
+- `setTime(int hr, int min, int sec, int day, int mnth, int yr)` - Alternative to above
+- `adjustTime(long adjustment)` - Adjust system time by adding the adjustment value
+
+```
+timeStatus();   // indicates if time has been set and recently synchronized
+                // returns one of the following enumerations:
+  timeNotSet      // the time has never been set, the clock started at Jan 1 1970
+  timeNeedsSync   // the time had been set but a sync attempt did not succeed
+  timeSet         // the time is set and is synced
+```
+
 Time and Date values are not valid if the status is timeNotSet. Otherwise values can be used but 
 the returned time may have drifted if the status is timeNeedsSync. 	
 
@@ -60,9 +73,11 @@ setSyncProvider(getTimeFunction);  // set the external time provider
 setSyncInterval(interval);         // set the number of seconds between re-sync
 
 
+## Utility Macros
+
 There are many convenience macros in the time.h file for time constants and conversion of time units.
 
-To use the library, copy the download to the Library directory.
+## Examples
 
 The Time directory contains the Time library and some example sketches
 illustrating how the library can be used with various time sources:
@@ -94,9 +109,11 @@ illustrating how the library can be used with various time sources:
   This requires the TinyGPS library from Mikal Hart:
   http://arduiniana.org/libraries/TinyGPS
 
-Differences between this code and the playground DateTime library
+## Differences between this code and the playground DateTime library
+
 although the Time library is based on the DateTime codebase, the API has changed.
 Changes in the Time library API:
+
 - time elements are functions returning int (they are variables in DateTime)
 - Years start from 1970 
 - days of the week and months start from 1 (they start from 0 in DateTime)
@@ -105,7 +122,7 @@ Changes in the Time library API:
 - function added to automatically sync time with extrnal source
 - localTime and maketime parameters changed, localTime renamed to breakTime
  
-Technical notes:
+## Technical notes:
 
 Internal system time is based on the standard Unix time_t.
 The value is the number of seconds since Jan 1 1970.
@@ -124,8 +141,10 @@ All the members of the Arduino tm structure are bytes and the year is offset fro
 Convenience macros provide conversion to and from the Arduino format.
 
 Low level functions to convert between system time and individual time elements are provided:                    
+```c++
   breakTime( time, &tm);  // break time_t into elements stored in tm struct
   makeTime( &tm);  // return time_t  from elements stored in tm struct 
+```
 
 The DS1307RTC library included in the download provides an example of how a time provider
 can use the low level functions to interface with the Time library.
