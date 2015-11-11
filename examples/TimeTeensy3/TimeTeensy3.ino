@@ -4,7 +4,7 @@
  * 
  */
 
-#include <Time.h>  
+#include <TimeLib.h>
 
 void setup()  {
   // set the Time library to use Teensy 3.0's RTC to keep time
