@@ -96,24 +96,24 @@ typedef time_t(*getExternalTime)();
 
 /*============================================================================*/
 /*  time and date functions   */
-int     hour();            // the hour now 
-int     hour(time_t t);    // the hour for the given time
-int     hourFormat12();    // the hour now in 12 hour format
-int     hourFormat12(time_t t); // the hour for the given time in 12 hour format
+uint8_t hour();            // the hour now 
+uint8_t hour(time_t t);    // the hour for the given time
+uint8_t hourFormat12();    // the hour now in 12 hour format
+uint8_t hourFormat12(time_t t); // the hour for the given time in 12 hour format
 uint8_t isAM();            // returns true if time now is AM
 uint8_t isAM(time_t t);    // returns true the given time is AM
 uint8_t isPM();            // returns true if time now is PM
 uint8_t isPM(time_t t);    // returns true the given time is PM
-int     minute();          // the minute now 
-int     minute(time_t t);  // the minute for the given time
-int     second();          // the second now 
-int     second(time_t t);  // the second for the given time
-int     day();             // the day now 
-int     day(time_t t);     // the day for the given time
-int     weekday();         // the weekday now (Sunday is day 1) 
-int     weekday(time_t t); // the weekday for the given time 
-int     month();           // the month now  (Jan is month 1)
-int     month(time_t t);   // the month for the given time
+uint8_t minute();          // the minute now 
+uint8_t minute(time_t t);  // the minute for the given time
+uint8_t second();          // the second now 
+uint8_t second(time_t t);  // the second for the given time
+uint8_t day();             // the day now 
+uint8_t day(time_t t);     // the day for the given time
+uint8_t weekday();         // the weekday now (Sunday is day 1) 
+uint8_t weekday(time_t t); // the weekday for the given time 
+uint8_t month();           // the month now  (Jan is month 1)
+uint8_t month(time_t t);   // the month for the given time
 int     year();            // the full four digit year: (2009, 2010 etc) 
 int     year(time_t t);    // the year for the given time
 
