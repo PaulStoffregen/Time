@@ -28,6 +28,11 @@ const int timeZone = 1;     // Central European Time
 WiFiUDP Udp;
 unsigned int localPort = 8888;  // local port to listen for UDP packets
 
+time_t getNtpTime();
+void digitalClockDisplay();
+void printDigits(int digits);
+void sendNTPpacket(IPAddress &address);
+
 void setup() 
 {
   Serial.begin(9600);
