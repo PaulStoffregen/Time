@@ -4,7 +4,7 @@
  * 
  */
 
-#include <Time.h>
+#include <TimeLib.h>
 #include <TinyGPS.h>       // http://arduiniana.org/libraries/TinyGPS/
 #include <SoftwareSerial.h>
 // TinyGPS and SoftwareSerial libraries are the work of Mikal Hart

@@ -6,7 +6,7 @@
  * https://github.com/MarkusLange/Arduino-Due-RTC-Library
  */
 
-#include <Time.h>
+#include <TimeLib.h>
 #include <rtc_clock.h>
 
 // Select the Slowclock source

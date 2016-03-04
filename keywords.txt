@@ -24,6 +24,7 @@ adjustTime	KEYWORD2
 setSyncProvider	KEYWORD2
 setSyncInterval	KEYWORD2
 timeStatus	KEYWORD2
+TimeLib	KEYWORD2
 #######################################
 # Instances (KEYWORD2)
 #######################################

@@ -2,15 +2,16 @@
  * Time_NTP.pde
  * Example showing time sync to NTP time source
  *
- * This sketch uses the Ethernet library
+ * This sketch uses the ESP8266WiFi library
  */
  
-#include <TimeLib.h>
-#include <Ethernet.h>
-#include <EthernetUdp.h>
-#include <SPI.h>
+#include <TimeLib.h> 
+#include <ESP8266WiFi.h>
+#include <WiFiUdp.h>
 
-byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED }; 
+const char ssid[] = "*************";  //  your network SSID (name)
+const char pass[] = "********";       // your network password
+
 // NTP Servers:
 IPAddress timeServer(132, 163, 4, 101); // time-a.timefreq.bldrdoc.gov
 // IPAddress timeServer(132, 163, 4, 102); // time-b.timefreq.bldrdoc.gov
@@ -24,8 +25,13 @@ const int timeZone = 1;     // Central European Time
 //const int timeZone = -7;  // Pacific Daylight Time (USA)
 
 
-EthernetUDP Udp;
+WiFiUDP Udp;
 unsigned int localPort = 8888;  // local port to listen for UDP packets
+
+time_t getNtpTime();
+void digitalClockDisplay();
+void printDigits(int digits);
+void sendNTPpacket(IPAddress &address);
 
 void setup() 
 {
@@ -33,16 +39,22 @@ void setup()
   while (!Serial) ; // Needed for Leonardo only
   delay(250);
   Serial.println("TimeNTP Example");
-  if (Ethernet.begin(mac) == 0) {
-    // no point in carrying on, so do nothing forevermore:
-    while (1) {
-      Serial.println("Failed to configure Ethernet using DHCP");
-      delay(10000);
-    }
+  Serial.print("Connecting to ");
+  Serial.println(ssid);
+  WiFi.begin(ssid, pass);
+  
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
   }
+
+  
   Serial.print("IP number assigned by DHCP is ");
-  Serial.println(Ethernet.localIP());
+  Serial.println(WiFi.localIP());
+  Serial.println("Starting UDP");
   Udp.begin(localPort);
+  Serial.print("Local port: ");
+  Serial.println(Udp.localPort());
   Serial.println("waiting for sync");
   setSyncProvider(getNtpTime);
 }
@@ -66,12 +78,14 @@ void digitalClockDisplay(){
   printDigits(second());
   Serial.print(" ");
   Serial.print(day());
-  Serial.print(" ");
+  Serial.print(".");
   Serial.print(month());
-  Serial.print(" ");
+  Serial.print(".");
   Serial.print(year()); 
   Serial.println(); 
 }
+
+
 
 void printDigits(int digits){
   // utility for digital clock display: prints preceding colon and leading 0
@@ -132,4 +146,3 @@ void sendNTPpacket(IPAddress &address)
   Udp.write(packetBuffer, NTP_PACKET_SIZE);
   Udp.endPacket();
 }
-

@@ -7,8 +7,8 @@
  * On Linux, you can use "date +T%s > /dev/ttyACM0" (UTC time zone)
  */
 
-#include <Time.h>  
-#include <Wire.h>  
+#include <TimeLib.h>
+#include <Wire.h>
 #include <DS1307RTC.h>  // a basic DS1307 library that returns time as a time_t
 
 
