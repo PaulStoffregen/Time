@@ -1,11 +1,11 @@
 /*
- * Time_NTP.pde
+ * TimeNTP_ESP8266WiFi.ino
  * Example showing time sync to NTP time source
  *
  * This sketch uses the ESP8266WiFi library
  */
- 
-#include <TimeLib.h> 
+
+#include <TimeLib.h>
 #include <ESP8266WiFi.h>
 #include <WiFiUdp.h>
 
@@ -13,10 +13,11 @@ const char ssid[] = "*************";  //  your network SSID (name)
 const char pass[] = "********";       // your network password
 
 // NTP Servers:
-IPAddress timeServer(132, 163, 4, 101); // time-a.timefreq.bldrdoc.gov
-// IPAddress timeServer(132, 163, 4, 102); // time-b.timefreq.bldrdoc.gov
-// IPAddress timeServer(132, 163, 4, 103); // time-c.timefreq.bldrdoc.gov
-
+static const char ntpServerName[] = "us.pool.ntp.org";
+//static const char ntpServerName[] = "time.nist.gov";
+//static const char ntpServerName[] = "time-a.timefreq.bldrdoc.gov";
+//static const char ntpServerName[] = "time-b.timefreq.bldrdoc.gov";
+//static const char ntpServerName[] = "time-c.timefreq.bldrdoc.gov";
 
 const int timeZone = 1;     // Central European Time
 //const int timeZone = -5;  // Eastern Standard Time (USA)
@@ -33,7 +34,7 @@ void digitalClockDisplay();
 void printDigits(int digits);
 void sendNTPpacket(IPAddress &address);
 
-void setup() 
+void setup()
 {
   Serial.begin(9600);
   while (!Serial) ; // Needed for Leonardo only
@@ -42,13 +43,12 @@ void setup()
   Serial.print("Connecting to ");
   Serial.println(ssid);
   WiFi.begin(ssid, pass);
-  
+
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
     Serial.print(".");
   }
 
-  
   Serial.print("IP number assigned by DHCP is ");
   Serial.println(WiFi.localIP());
   Serial.println("Starting UDP");
@@ -57,21 +57,23 @@ void setup()
   Serial.println(Udp.localPort());
   Serial.println("waiting for sync");
   setSyncProvider(getNtpTime);
+  setSyncInterval(300);
 }
 
 time_t prevDisplay = 0; // when the digital clock was displayed
 
 void loop()
-{  
+{
   if (timeStatus() != timeNotSet) {
     if (now() != prevDisplay) { //update the display only if time has changed
       prevDisplay = now();
-      digitalClockDisplay();  
+      digitalClockDisplay();
     }
   }
 }
 
-void digitalClockDisplay(){
+void digitalClockDisplay()
+{
   // digital clock display of the time
   Serial.print(hour());
   printDigits(minute());
@@ -81,16 +83,15 @@ void digitalClockDisplay(){
   Serial.print(".");
   Serial.print(month());
   Serial.print(".");
-  Serial.print(year()); 
-  Serial.println(); 
+  Serial.print(year());
+  Serial.println();
 }
 
-
-
-void printDigits(int digits){
+void printDigits(int digits)
+{
   // utility for digital clock display: prints preceding colon and leading 0
   Serial.print(":");
-  if(digits < 10)
+  if (digits < 10)
     Serial.print('0');
   Serial.print(digits);
 }
@@ -102,9 +103,16 @@ byte packetBuffer[NTP_PACKET_SIZE]; //buffer to hold incoming & outgoing packets
 
 time_t getNtpTime()
 {
+  IPAddress ntpServerIP; // NTP server's ip address
+
   while (Udp.parsePacket() > 0) ; // discard any previously received packets
   Serial.println("Transmit NTP Request");
-  sendNTPpacket(timeServer);
+  // get a random server from the pool
+  WiFi.hostByName(ntpServerName, ntpServerIP);
+  Serial.print(ntpServerName);
+  Serial.print(": ");
+  Serial.println(ntpServerIP);
+  sendNTPpacket(ntpServerIP);
   uint32_t beginWait = millis();
   while (millis() - beginWait < 1500) {
     int size = Udp.parsePacket();
@@ -136,12 +144,12 @@ void sendNTPpacket(IPAddress &address)
   packetBuffer[2] = 6;     // Polling Interval
   packetBuffer[3] = 0xEC;  // Peer Clock Precision
   // 8 bytes of zero for Root Delay & Root Dispersion
-  packetBuffer[12]  = 49;
-  packetBuffer[13]  = 0x4E;
-  packetBuffer[14]  = 49;
-  packetBuffer[15]  = 52;
+  packetBuffer[12] = 49;
+  packetBuffer[13] = 0x4E;
+  packetBuffer[14] = 49;
+  packetBuffer[15] = 52;
   // all NTP fields have been given values, now
-  // you can send a packet requesting a timestamp:                 
+  // you can send a packet requesting a timestamp:
   Udp.beginPacket(address, 123); //NTP requests are to port 123
   Udp.write(packetBuffer, NTP_PACKET_SIZE);
   Udp.endPacket();
