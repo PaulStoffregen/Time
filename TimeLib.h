@@ -64,13 +64,13 @@ typedef time_t(*getExternalTime)();
 
 /*==============================================================================*/
 /* Useful Constants */
-#define SECS_PER_MIN  (60UL)
-#define SECS_PER_HOUR (3600UL)
-#define SECS_PER_DAY  (SECS_PER_HOUR * 24UL)
-#define DAYS_PER_WEEK (7UL)
-#define SECS_PER_WEEK (SECS_PER_DAY * DAYS_PER_WEEK)
-#define SECS_PER_YEAR (SECS_PER_WEEK * 52UL)
-#define SECS_YR_2000  (946684800UL) // the time at the start of y2k
+#define SECS_PER_MIN  ((time_t)(60UL))
+#define SECS_PER_HOUR ((time_t)(3600UL))
+#define SECS_PER_DAY  ((time_t)(SECS_PER_HOUR * 24UL))
+#define DAYS_PER_WEEK ((time_t)(7UL))
+#define SECS_PER_WEEK ((time_t)(SECS_PER_DAY * DAYS_PER_WEEK))
+#define SECS_PER_YEAR ((time_t)(SECS_PER_WEEK * 52UL))
+#define SECS_YR_2000  ((time_t)(946684800UL)) // the time at the start of y2k
  
 /* Useful Macros for getting elapsed time */
 #define numberOfSeconds(_time_) (_time_ % SECS_PER_MIN)  
