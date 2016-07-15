@@ -240,12 +240,12 @@ static uint32_t nextSyncTime = 0;
 static timeStatus_t Status = timeNotSet;
 
 getExternalTime getTimePtr;  // pointer to external sync function
+getExternalTime getDaylightSavingPtr = 0;  // pointer to external sync function
 //setExternalTime setTimePtr; // not used in this version
 
 #ifdef TIME_DRIFT_INFO   // define this to get drift data
 time_t sysUnsyncedTime = 0; // the time sysTime unadjusted by sync  
 #endif
-
 
 time_t now() {
 	// calculate number of seconds passed since last call to now()
@@ -262,6 +262,12 @@ time_t now() {
       time_t t = getTimePtr();
       if (t != 0) {
         setTime(t);
+		
+		if (getDaylightSavingPtr!=0) {
+	      t+=getDaylightSavingPtr();
+          setTime(t);
+		}
+		
       } else {
         nextSyncTime = sysTime + syncInterval;
         Status = (Status == timeNotSet) ?  timeNotSet : timeNeedsSync;
@@ -313,6 +319,10 @@ void setSyncProvider( getExternalTime getTimeFunction){
   getTimePtr = getTimeFunction;  
   nextSyncTime = sysTime;
   now(); // this will sync the clock
+}
+
+void setDaylightsavingProvider( getExternalTime getTimeFunction){
+  getDaylightSavingPtr = getTimeFunction;  
 }
 
 void setSyncInterval(time_t interval){ // set the number of seconds between re-sync
