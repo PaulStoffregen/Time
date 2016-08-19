@@ -58,7 +58,12 @@ typedef struct  {
 #define  tmYearToY2k(Y)      ((Y) - 30)    // offset is from 2000
 #define  y2kYearToTm(Y)      ((Y) + 30)   
 
+#ifdef ARDUINO_ARCH_ESP8266
+#include <functional>
+typedef std::function<time_t(void)> getExternalTime;
+#else
 typedef time_t(*getExternalTime)();
+#endif
 //typedef void  (*setExternalTime)(const time_t); // not used in this version
 
 
