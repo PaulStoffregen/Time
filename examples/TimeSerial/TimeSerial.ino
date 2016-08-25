@@ -65,7 +65,7 @@ void processSyncMessage() {
   unsigned long pctime;
   const unsigned long DEFAULT_TIME = 1357041600; // Jan 1 2013
 
-  if(Serial.find(TIME_HEADER)) {
+  if(Serial.find((char *)TIME_HEADER)) {
      pctime = Serial.parseInt();
      if( pctime >= DEFAULT_TIME) { // check the integer is a valid time (greater than Jan 1 2013)
        setTime(pctime); // Sync Arduino clock to the time received on the serial port
