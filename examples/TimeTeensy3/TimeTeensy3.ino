@@ -58,7 +58,7 @@ unsigned long processSyncMessage() {
   unsigned long pctime = 0L;
   const unsigned long DEFAULT_TIME = 1357041600; // Jan 1 2013 
 
-  if(Serial.find(TIME_HEADER)) {
+  if(Serial.find((char*)TIME_HEADER)) {
      pctime = Serial.parseInt();
      return pctime;
      if( pctime < DEFAULT_TIME) { // check the value is a valid time (greater than Jan 1 2013)
