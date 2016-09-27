@@ -21,8 +21,6 @@
     "homepage": "http://playground.arduino.cc/Code/Time",
     "frameworks": "Arduino",
     "examples": [
-        "examples/*/*.ino",
-        "examples/*/*/*.pde"
+        "examples/*/*.ino"
     ]
 }
-
