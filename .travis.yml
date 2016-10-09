@@ -1,0 +1,28 @@
+language: python
+python:
+    - "2.7"
+
+env:
+    - PLATFORMIO_CI_SRC=examples/TimeArduinoDue PLATFORMIO_CI_BOARDS_ARGS="--board=due"
+    - PLATFORMIO_CI_SRC=examples/TimeGPS
+    - PLATFORMIO_CI_SRC=examples/TimeNTP
+    - PLATFORMIO_CI_SRC=examples/TimeRTC
+    - PLATFORMIO_CI_SRC=examples/TimeRTCLog
+    - PLATFORMIO_CI_SRC=examples/TimeRTCSet
+    - PLATFORMIO_CI_SRC=examples/TimeSerial
+    - PLATFORMIO_CI_SRC=examples/TimeSerialDateStrings
+    - PLATFORMIO_CI_SRC=examples/TimeTeensy3 PLATFORMIO_CI_BOARDS_ARGS="--board=teensy31"
+
+install:
+    - python -c "$(curl -fsSL https://raw.githubusercontent.com/platformio/platformio/master/scripts/get-platformio.py)"
+
+    #
+    # Libraries from PlatformIO Library Registry:
+    #
+    # http://platformio.org/#!/lib/show/416/TinyGPS
+    # http://platformio.org/#!/lib/show/421/DS1307RTC
+    # http://platformio.org/#!/lib/show/422/DueRTC
+    - platformio lib install 416 421 422
+
+script:
+    - if [[ $PLATFORMIO_CI_BOARDS_ARGS ]]; then bash -c 'platformio ci --lib="." $PLATFORMIO_CI_BOARDS_ARGS'; else bash -c 'platformio ci --lib="." --board=uno --board=teensy20pp'; fi
