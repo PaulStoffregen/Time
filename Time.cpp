@@ -165,7 +165,7 @@ void breakTime(time_t timeInput, tmElements_t &tm){
   time /= 60; // now it is hours
   tm.Hour = time % 24;
   time /= 24; // now it is days
-  tm.Wday = ((time + 4) % 7) + 1;  // Sunday is day 1 
+  tm.Wday = ((time + 4) % 7) ;  // Sunday is day 0
   
   year = 0;  
   days = 0;
