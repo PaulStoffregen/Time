@@ -7,9 +7,17 @@
               - fixed  daysToTime_t macro (thanks maniacbug)
 */     
 
+
 #ifndef _Time_h
 #ifdef __cplusplus
 #define _Time_h
+
+
+//#ifndef _TimeINTL_h
+//#define _TimeINTL_h
+#include "TimeINTL_DE.h"  
+//#endif // _TimeINTL_h
+
 
 #include <inttypes.h>
 #ifndef __AVR__
@@ -123,7 +131,7 @@ void    setTime(int hr,int min,int sec,int day, int month, int yr);
 void    adjustTime(long adjustment);
 
 /* date strings */ 
-#define dt_MAX_STRING_LEN 9 // length of longest date string (excluding terminating null)
+
 char* monthStr(uint8_t month);
 char* dayStr(uint8_t day);
 char* monthShortStr(uint8_t month);
