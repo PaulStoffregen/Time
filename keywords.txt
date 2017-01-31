@@ -23,6 +23,7 @@ setTime	KEYWORD2
 adjustTime	KEYWORD2
 setSyncProvider	KEYWORD2
 setSyncInterval	KEYWORD2
+setAdjustFunction KEYWORD2
 timeStatus	KEYWORD2
 TimeLib	KEYWORD2
 #######################################
