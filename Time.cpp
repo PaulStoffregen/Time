@@ -280,12 +280,12 @@ void setTime(time_t t) {
 
   sysTime = (uint32_t)t;  
   nextSyncTime = (uint32_t)t + syncInterval;
+  Status = timeSet;
+  prevMillis = millis();  // restart counting from now (thanks to Korman for this fix)
   if(getAdjustPtr != 0){	// call the adjust external function on setTime action
     long ad = getAdjustPtr();
     adjustTime(ad);
   }	  
-  Status = timeSet;
-  prevMillis = millis();  // restart counting from now (thanks to Korman for this fix)
 } 
 
 void setTime(int hr,int min,int sec,int dy, int mnth, int yr){
