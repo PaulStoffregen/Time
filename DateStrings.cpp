@@ -20,7 +20,7 @@
 #define strcpy_P(dest, src) strcpy((dest), (src))
 #endif
 #include <string.h> // for strcpy_P or strcpy
-#include "Time.h"
+#include <Time_lib.h>
  
 // the short strings for each day or month must be exactly dt_SHORT_STR_LEN
 #define dt_SHORT_STR_LEN  3 // the length of short strings
