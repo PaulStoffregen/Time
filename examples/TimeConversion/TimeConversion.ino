@@ -37,8 +37,6 @@
 
 #include <Time.h>
 #include <ConvertTime.h>
-#include <Wire.h>
-#include <DS1307RTC.h>  // a basic DS1307 library that returns time as a time_t
 
 
 void setup() {
