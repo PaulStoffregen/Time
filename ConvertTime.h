@@ -1,3 +1,6 @@
+/*
+  ConvertTime.h - convert time representations between TimeLib's and sdtlib <time.h>'s
+*/
 
 #ifndef _ConvertTime_h
 #define _ConvertTime_h
