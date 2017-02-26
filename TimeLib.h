@@ -89,10 +89,10 @@ typedef long(*getExternalAdjust)();
 
 
 /* Useful Macros for converting elapsed time to a time_t */
-#define minutesToTime_t ((M)) ( (M) * SECS_PER_MIN)  
-#define hoursToTime_t   ((H)) ( (H) * SECS_PER_HOUR)  
-#define daysToTime_t    ((D)) ( (D) * SECS_PER_DAY) // fixed on Jul 22 2011
-#define weeksToTime_t   ((W)) ( (W) * SECS_PER_WEEK)   
+#define minutesToTime_t(M) ( M * SECS_PER_MIN)  
+#define hoursToTime_t(H) ( H * SECS_PER_HOUR)  
+#define daysToTime_t(D) ( D * SECS_PER_DAY) // fixed on Jul 22 2011
+#define weeksToTime_t(W) ( W * SECS_PER_WEEK)   
 
 /*============================================================================*/
 /*  time and date functions   */
