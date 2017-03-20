@@ -46,7 +46,7 @@ typedef struct  {
   uint8_t Second; 
   uint8_t Minute; 
   uint8_t Hour; 
-  uint8_t Wday;   // day of week, sunday is day 1
+  uint8_t Wday;   // day of week, sunday is day 0
   uint8_t Day;
   uint8_t Month; 
   uint8_t Year;   // offset from 1970; 
@@ -76,14 +76,14 @@ typedef time_t(*getExternalTime)();
 #define numberOfSeconds(_time_) (_time_ % SECS_PER_MIN)  
 #define numberOfMinutes(_time_) ((_time_ / SECS_PER_MIN) % SECS_PER_MIN) 
 #define numberOfHours(_time_) (( _time_% SECS_PER_DAY) / SECS_PER_HOUR)
-#define dayOfWeek(_time_)  ((( _time_ / SECS_PER_DAY + 4)  % DAYS_PER_WEEK)+1) // 1 = Sunday
+#define dayOfWeek(_time_)  ((( _time_ / SECS_PER_DAY + 4)  % DAYS_PER_WEEK)) // 0 = Sunday
 #define elapsedDays(_time_) ( _time_ / SECS_PER_DAY)  // this is number of days since Jan 1 1970
 #define elapsedSecsToday(_time_)  (_time_ % SECS_PER_DAY)   // the number of seconds since last midnight 
 // The following macros are used in calculating alarms and assume the clock is set to a date later than Jan 1 1971
 // Always set the correct time before settting alarms
 #define previousMidnight(_time_) (( _time_ / SECS_PER_DAY) * SECS_PER_DAY)  // time at the start of the given day
 #define nextMidnight(_time_) ( previousMidnight(_time_)  + SECS_PER_DAY )   // time at the end of the given day 
-#define elapsedSecsThisWeek(_time_)  (elapsedSecsToday(_time_) +  ((dayOfWeek(_time_)-1) * SECS_PER_DAY) )   // note that week starts on day 1
+#define elapsedSecsThisWeek(_time_)  (elapsedSecsToday(_time_) +  ((dayOfWeek(_time_)-1) * SECS_PER_DAY) )   // note that week starts on day 0
 #define previousSunday(_time_)  (_time_ - elapsedSecsThisWeek(_time_))      // time at the start of the week for the given time
 #define nextSunday(_time_) ( previousSunday(_time_)+SECS_PER_WEEK)          // time at the end of the week for the given time
 
@@ -110,7 +110,7 @@ int     second();          // the second now
 int     second(time_t t);  // the second for the given time
 int     day();             // the day now 
 int     day(time_t t);     // the day for the given time
-int     weekday();         // the weekday now (Sunday is day 1) 
+int     weekday();         // the weekday now (Sunday is day 0) 
 int     weekday(time_t t); // the weekday for the given time 
 int     month();           // the month now  (Jan is month 1)
 int     month(time_t t);   // the month for the given time
