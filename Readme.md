@@ -3,7 +3,7 @@
 Time is a library that provides timekeeping functionality for Arduino.
 
 The code is derived from the Playground DateTime library but is updated
-to provide an API that is more flexable and easier to use.
+to provide an API that is more flexible and easier to use.
 
 A primary goal was to enable date and time functionality that can be used with
 a variety of external time sources with minimum differences required in sketch logic.
@@ -26,7 +26,7 @@ month();           // the month now (1-12)
 year();            // the full four digit year: (2009, 2010 etc)
 ```
 
-there are also functions to return the hour in 12 hour format
+there are also functions to return the hour in 12-hour format
 
 ```c
 hourFormat12();    // the hour now in 12 hour format
@@ -39,7 +39,7 @@ now();             // returns the current time as seconds since Jan 1 1970
 The time and date functions can take an optional parameter for the time. This prevents
 errors if the time rolls over between elements. For example, if a new minute begins
 between getting the minute and second, the values will be inconsistent. Using the
-following functions eliminates this probglem
+following functions eliminates this problem
 
 ```c
 time_t t = now(); // store the current time in time variable t
@@ -61,12 +61,12 @@ setTime(hr,min,sec,day,mnth,yr); // alternative to above, yr is 2 or 4 digit yr
 adjustTime(adjustment);          // adjust system time by adding the adjustment value
 timeStatus();                    // indicates if time has been set and recently synchronized
                                  // returns one of the following enumerations:
-timeNotSet                       // the time has never been set, the clock started at Jan 1 1970
+timeNotSet                       // the time has never been set, the clock started on Jan 1, 1970
 timeNeedsSync                    // the time had been set but a sync attempt did not succeed
 timeSet                          // the time is set and is synced
 ```
 
-Time and Date values are not valid if the status is timeNotSet. Otherwise values can be used but
+Time and Date values are not valid if the status is timeNotSet. Otherwise, values can be used but
 the returned time may have drifted if the status is timeNeedsSync. 	
 
 ```c
@@ -100,7 +100,7 @@ illustrating how the library can be used with various time sources:
 - `TimeRTCSet` is similar to the above and adds the ability to set the Real Time Clock
 
 - `TimeRTCLog` demonstrates how to calculate the difference between times.
-  It is a vary simple logger application that monitors events on digtial pins
+  It is a very simple logger application that monitors events on digital pins
   and prints (to the serial port) the time of an event and the time period since
   the previous event.
 
@@ -121,15 +121,15 @@ Changes in the Time library API:
 - time elements are functions returning `int` (they are variables in DateTime)
 - Years start from 1970
 - days of the week and months start from 1 (they start from 0 in DateTime)
-- DateStrings do not require a seperate library
+- DateStrings do not require a separate library
 - time elements can be accessed non-atomically (in DateTime they are always atomic)
-- function added to automatically sync time with extrnal source
+- function added to automatically sync time with external source
 - `localTime` and `maketime` parameters changed, `localTime` renamed to `breakTime`
 
 ## Technical notes:
 
 Internal system time is based on the standard Unix `time_t`.
-The value is the number of seconds since Jan 1 1970.
+The value is the number of seconds since Jan 1, 1970.
 System time begins at zero when the sketch starts.
 
 The internal time can be automatically synchronized at regular intervals to an external time source.
@@ -152,4 +152,4 @@ makeTime(&tm);         // return time_t  from elements stored in tm struct
 ```
 
 The DS1307RTC library included in the download provides an example of how a time provider
-can use the low level functions to interface with the Time library.
+can use the low-level functions to interface with the Time library.
