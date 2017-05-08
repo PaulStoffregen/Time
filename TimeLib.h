@@ -60,7 +60,7 @@ typedef struct  {
 
 typedef time_t(*getExternalTime)();
 //typedef void  (*setExternalTime)(const time_t); // not used in this version
-
+typedef long(*getExternalAdjust)();
 
 /*==============================================================================*/
 /* Useful Constants */
@@ -89,10 +89,10 @@ typedef time_t(*getExternalTime)();
 
 
 /* Useful Macros for converting elapsed time to a time_t */
-#define minutesToTime_t ((M)) ( (M) * SECS_PER_MIN)  
-#define hoursToTime_t   ((H)) ( (H) * SECS_PER_HOUR)  
-#define daysToTime_t    ((D)) ( (D) * SECS_PER_DAY) // fixed on Jul 22 2011
-#define weeksToTime_t   ((W)) ( (W) * SECS_PER_WEEK)   
+#define minutesToTime_t(M) ( M * SECS_PER_MIN)  
+#define hoursToTime_t(H) ( H * SECS_PER_HOUR)  
+#define daysToTime_t(D) ( D * SECS_PER_DAY) // fixed on Jul 22 2011
+#define weeksToTime_t(W) ( W * SECS_PER_WEEK)   
 
 /*============================================================================*/
 /*  time and date functions   */
@@ -133,6 +133,7 @@ char* dayShortStr(uint8_t day);
 timeStatus_t timeStatus(); // indicates if time has been set and recently synchronized
 void    setSyncProvider( getExternalTime getTimeFunction); // identify the external time provider
 void    setSyncInterval(time_t interval); // set the number of seconds between re-sync
+void	setAdjustFunction( getExternalAdjust AdjustFunction); //identify the external asjust function
 
 /* low level functions to convert to and from system time                     */
 void breakTime(time_t time, tmElements_t &tm);  // break time_t into elements

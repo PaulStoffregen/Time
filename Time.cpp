@@ -241,6 +241,7 @@ static timeStatus_t Status = timeNotSet;
 
 getExternalTime getTimePtr;  // pointer to external sync function
 //setExternalTime setTimePtr; // not used in this version
+getExternalAdjust getAdjustPtr; // pointer to external adjust function
 
 #ifdef TIME_DRIFT_INFO   // define this to get drift data
 time_t sysUnsyncedTime = 0; // the time sysTime unadjusted by sync  
@@ -281,6 +282,10 @@ void setTime(time_t t) {
   nextSyncTime = (uint32_t)t + syncInterval;
   Status = timeSet;
   prevMillis = millis();  // restart counting from now (thanks to Korman for this fix)
+  if(getAdjustPtr != 0){	// call the adjust external function on setTime action
+    long ad = getAdjustPtr();
+    adjustTime(ad);
+  }	  
 } 
 
 void setTime(int hr,int min,int sec,int dy, int mnth, int yr){
@@ -300,6 +305,7 @@ void setTime(int hr,int min,int sec,int dy, int mnth, int yr){
 }
 
 void adjustTime(long adjustment) {
+  nextSyncTime += adjustment; // adjust the nextSyncTime!!	
   sysTime += adjustment;
 }
 
@@ -319,3 +325,7 @@ void setSyncInterval(time_t interval){ // set the number of seconds between re-s
   syncInterval = (uint32_t)interval;
   nextSyncTime = sysTime + syncInterval;
 }
+
+void setAdjustFunction( getExternalAdjust AdjustFunction){
+  getAdjustPtr = AdjustFunction;
+}	
