@@ -1,6 +1,6 @@
 {
     "name": "Time",
-    "description": "Time keeping library",
+    "description": "Time keeping library forked from PaulStoffregen",
     "keywords": "Time, date, hour, minute, second, day, week, month, year, RTC",
     "authors": [
         {
@@ -11,11 +11,14 @@
             "email": "paul@pjrc.com",
             "url": "http://www.pjrc.com",
             "maintainer": true
+        },{
+            "name": "Marcel Schulz",
+			"email": "schullebernd@googlemail.com",
         }
     ],
     "repository": {
         "type": "git",
-         "url": "https://github.com/PaulStoffregen/Time"
+         "url": "https://github.com/Schullebernd/Time"
     },
     "version": "1.5",
     "homepage": "http://playground.arduino.cc/Code/Time",
