@@ -271,6 +271,11 @@ time_t now() {
   return (time_t)sysTime;
 }
 
+time_t nowMs()
+{
+	return (millis() - prevMillis) % 1000;
+}
+
 void setTime(time_t t) { 
 #ifdef TIME_DRIFT_INFO
  if(sysUnsyncedTime == 0) 

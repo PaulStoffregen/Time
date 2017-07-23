@@ -1,3 +1,6 @@
+# Chanes to originally library from PaulStoffregen/Time library
+- Added the function nowMs() to request the current milliseconds of a second.
+
 # Arduino Time Library
 
 Time is a library that provides timekeeping functionality for Arduino.
