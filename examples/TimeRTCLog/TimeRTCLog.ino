@@ -38,7 +38,7 @@ void loop()
         time_t timeNow = now();
         if(prevEventTime[i] > 0)  
            // if this was not the first state change, calculate the time from the previous change
-           duration = duration = timeNow - prevEventTime[i];         
+           duration = timeNow - prevEventTime[i];
         logEvent(inputPins[i], val, timeNow, duration );  // log the event
         prevEventTime[i] = timeNow;                       // store the time for this event  
      }
