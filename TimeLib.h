@@ -69,7 +69,7 @@ typedef time_t(*getExternalTime)();
 #define SECS_PER_DAY  ((time_t)(SECS_PER_HOUR * 24UL))
 #define DAYS_PER_WEEK ((time_t)(7UL))
 #define SECS_PER_WEEK ((time_t)(SECS_PER_DAY * DAYS_PER_WEEK))
-#define SECS_PER_YEAR ((time_t)(SECS_PER_WEEK * 52UL))
+#define SECS_PER_YEAR ((time_t)(SECS_PER_DAY * 365UL)) // TODO: ought to handle leap years
 #define SECS_YR_2000  ((time_t)(946684800UL)) // the time at the start of y2k
  
 /* Useful Macros for getting elapsed time */
