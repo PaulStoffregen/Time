@@ -201,7 +201,7 @@ void breakTime(time_t timeInput, tmElements_t &tm){
   tm.Day = time + 1;     // day of month
 }
 
-time_t makeTime(tmElements_t &tm){   
+time_t makeTime(const tmElements_t &tm){   
 // assemble time elements into time_t 
 // note year argument is offset from 1970 (see macros in time.h to convert to other formats)
 // previous version used full four digit year (or digits since 2000),i.e. 2009 was 2009 or 9
