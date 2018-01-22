@@ -248,9 +248,16 @@ time_t sysUnsyncedTime = 0; // the time sysTime unadjusted by sync
 
 
 time_t now() {
-	// calculate number of seconds passed since last call to now()
-  while (millis() - prevMillis >= 1000) {
-		// millis() and prevMillis are both unsigned ints thus the subtraction will always be the absolute value of the difference
+  uint32_t sysTimeMillis;
+  return now(sysTimeMillis);
+}
+
+time_t now(uint32_t& sysTimeMillis) {
+  // calculate number of seconds passed since last call to now()
+  while ((sysTimeMillis = millis() - prevMillis) >= 1000) {
+    // millis() and prevMillis are both unsigned ints thus the subtraction will
+    // always result in a positive difference. This is OK since it corrects for
+    // wrap-around and millis() is monotonic.
     sysTime++;
     prevMillis += 1000;	
 #ifdef TIME_DRIFT_INFO
