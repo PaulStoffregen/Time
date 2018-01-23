@@ -103,6 +103,12 @@ int second(time_t t) {  // the second for the given time
   return tm.Second;
 }
 
+int millisecond() {
+  uint32_t ms;
+  now(ms);
+  return (int)ms;
+}
+
 int day(){
   return(day(now())); 
 }

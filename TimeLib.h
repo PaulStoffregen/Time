@@ -108,6 +108,7 @@ int     minute();          // the minute now
 int     minute(time_t t);  // the minute for the given time
 int     second();          // the second now 
 int     second(time_t t);  // the second for the given time
+int     millisecond();     // the millisecond now
 int     day();             // the day now 
 int     day(time_t t);     // the day for the given time
 int     weekday();         // the weekday now (Sunday is day 1) 
