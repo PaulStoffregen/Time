@@ -32,8 +32,6 @@ there are also functions to return the hour in 12-hour format
 hourFormat12();    // the hour now in 12 hour format
 isAM();            // returns true if time now is AM
 isPM();            // returns true if time now is PM
-
-now();             // returns the current time as seconds since Jan 1 1970
 ```
 
 The time and date functions can take an optional parameter for the time. This prevents
@@ -52,13 +50,24 @@ month(t);         // the month for the given time t
 year(t);          // the year for the given time t
 ```
 
+There are also two functions that return the number of milliseconds left-over. Care
+should be taken when using this value since there are no functions to set the time
+with sub-second accuracy and the value may jump when the time is synchronized.
+However, it is always consistent with the current time. To access these functions,
+you have to `#define TIMELIB_ENABLE_MILLIS` in your sketch.
+
+```c
+time_t t = now(uint32_t& m) // store the current time in time variable t and milliseconds in m
+millisecond();     // the millisecond now (0-999)
+```
+
 Functions for managing the timer services are:
 
 ```c
 setTime(t);                      // set the system time to the give time t
 setTime(hr,min,sec,day,mnth,yr); // alternative to above, yr is 2 or 4 digit yr
                                  // (2010 or 10 sets year to 2010)
-adjustTime(adjustment);          // adjust system time by adding the adjustment value
+adjustTime(adjustment);          // adjust system time by adding the adjustment value (in seconds)
 timeStatus();                    // indicates if time has been set and recently synchronized
                                  // returns one of the following enumerations:
 timeNotSet                       // the time has never been set, the clock started on Jan 1, 1970
