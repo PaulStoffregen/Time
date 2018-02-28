@@ -35,14 +35,14 @@
 
 #include "TimeLib.h"
 
-static tmElements_t tm;          // a cache of time elements
+static tmElements_t cacheElements;   // a cache of time elements
 static time_t cacheTime;   // the time the cache was updated
 static uint32_t syncInterval = 300;  // time sync will be attempted after this many seconds
 
 void refreshCache(time_t t) {
   if (t != cacheTime) {
-    breakTime(t, tm); 
-    cacheTime = t; 
+    breakTime(t, cacheElements);
+    cacheTime = t;
   }
 }
 
@@ -52,7 +52,7 @@ int hour() { // the hour now
 
 int hour(time_t t) { // the hour for the given time
   refreshCache(t);
-  return tm.Hour;  
+  return cacheElements.Hour;
 }
 
 int hourFormat12() { // the hour now in 12 hour format
@@ -61,12 +61,12 @@ int hourFormat12() { // the hour now in 12 hour format
 
 int hourFormat12(time_t t) { // the hour for the given time in 12 hour format
   refreshCache(t);
-  if( tm.Hour == 0 )
+  if( cacheElements.Hour == 0 )
     return 12; // 12 midnight
-  else if( tm.Hour  > 12)
-    return tm.Hour - 12 ;
+  else if( cacheElements.Hour  > 12)
+    return cacheElements.Hour - 12 ;
   else
-    return tm.Hour ;
+    return cacheElements.Hour ;
 }
 
 uint8_t isAM() { // returns true if time now is AM
@@ -91,7 +91,7 @@ int minute() {
 
 int minute(time_t t) { // the minute for the given time
   refreshCache(t);
-  return tm.Minute;  
+  return cacheElements.Minute;
 }
 
 int second() {
@@ -100,7 +100,7 @@ int second() {
 
 int second(time_t t) {  // the second for the given time
   refreshCache(t);
-  return tm.Second;
+  return cacheElements.Second;
 }
 
 int day(){
@@ -109,7 +109,7 @@ int day(){
 
 int day(time_t t) { // the day for the given time (0-6)
   refreshCache(t);
-  return tm.Day;
+  return cacheElements.Day;
 }
 
 int weekday() {   // Sunday is day 1
@@ -118,7 +118,7 @@ int weekday() {   // Sunday is day 1
 
 int weekday(time_t t) {
   refreshCache(t);
-  return tm.Wday;
+  return cacheElements.Wday;
 }
    
 int month(){
@@ -127,7 +127,7 @@ int month(){
 
 int month(time_t t) {  // the month for the given time
   refreshCache(t);
-  return tm.Month;
+  return cacheElements.Month;
 }
 
 int year() {  // as in Processing, the full four digit year: (2009, 2010 etc) 
@@ -136,7 +136,7 @@ int year() {  // as in Processing, the full four digit year: (2009, 2010 etc)
 
 int year(time_t t) { // the year for the given time
   refreshCache(t);
-  return tmYearToCalendar(tm.Year);
+  return tmYearToCalendar(cacheElements.Year);
 }
 
 /*============================================================================*/	
@@ -290,13 +290,14 @@ void setTime(int hr,int min,int sec,int dy, int mnth, int yr){
       yr = yr - 1970;
   else
       yr += 30;  
-  tm.Year = yr;
-  tm.Month = mnth;
-  tm.Day = dy;
-  tm.Hour = hr;
-  tm.Minute = min;
-  tm.Second = sec;
-  setTime(makeTime(tm));
+  cacheElements.Year = yr;
+  cacheElements.Month = mnth;
+  cacheElements.Day = dy;
+  cacheElements.Hour = hr;
+  cacheElements.Minute = min;
+  cacheElements.Second = sec;
+  cacheTime = makeTime(cacheElements);
+  setTime(cacheTime);
 }
 
 void adjustTime(long adjustment) {
