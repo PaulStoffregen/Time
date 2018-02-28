@@ -165,6 +165,19 @@ void breakTime(time_t timeInput, tmElements_t &tm){
   time /= 60; // now it is hours
   tm.Hour = time % 24;
   time /= 24; // now it is days
+
+  // if the number of days since epoch matches cacheTime, then can take date
+  // elements from cacheElements and avoid expensive calculation.
+  if (time == (cacheTime / SECS_PER_DAY)) {
+    if (&tm != &cacheElements) {  // check whether tm is actually cacheElements
+      tm.Wday = cacheElements.Wday;
+      tm.Day = cacheElements.Day;
+      tm.Month = cacheElements.Month;
+      tm.Year = cacheElements.Year;
+    }
+    return;
+  }
+
   tm.Wday = ((time + 4) % 7) + 1;  // Sunday is day 1 
   
   year = 0;  
