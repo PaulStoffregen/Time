@@ -299,13 +299,13 @@ void setTime(time_t t) {
   prevMillis = millis();  // restart counting from now (thanks to Korman for this fix)
 } 
 
-void setTime(int hr,int min,int sec,int dy, int mnth, int yr){
- // year can be given as full four digit year or two digts (2010 or 10 for 2010);  
- //it is converted to years since 1970
-  if( yr > 99)
-      yr = yr - 1970;
+void setTime(int hr, int min, int sec, int dy, int mnth, int yr) {
+  // year can be given as full four digit year or two digts (2010 or 10 for 2010);
+  // it is converted to years since 1970
+  if (yr > 99)
+      yr = CalendarYrToTm(yr);
   else
-      yr += 30;  
+      yr = tmYearToY2k(yr);
   cacheElements.Year = yr;
   cacheElements.Month = mnth;
   cacheElements.Day = dy;
