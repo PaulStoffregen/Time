@@ -53,7 +53,8 @@ year(t);          // the year for the given time t
 There are also two functions that return the number of milliseconds left-over. Care
 should be taken when using this value since there are no functions to set the time
 with sub-second accuracy and the value may jump when the time is synchronized.
-However, it is always consistent with the current time.
+However, it is always consistent with the current time. To access these functions,
+you have to `#define TIMELIB_ENABLE_MILLIS` in your sketch.
 
 ```c
 time_t t = now(uint32_t& m) // store the current time in time variable t and milliseconds in m

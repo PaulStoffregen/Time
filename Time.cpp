@@ -33,6 +33,7 @@
 #include <WProgram.h> 
 #endif
 
+#define TIMELIB_ENABLE_MILLIS
 #include "TimeLib.h"
 
 static tmElements_t tm;          // a cache of time elements

@@ -108,7 +108,9 @@ int     minute();          // the minute now
 int     minute(time_t t);  // the minute for the given time
 int     second();          // the second now 
 int     second(time_t t);  // the second for the given time
+#ifdef TIMELIB_ENABLE_MILLIS
 int     millisecond();     // the millisecond now
+#endif
 int     day();             // the day now 
 int     day(time_t t);     // the day for the given time
 int     weekday();         // the weekday now (Sunday is day 1) 
@@ -119,7 +121,9 @@ int     year();            // the full four digit year: (2009, 2010 etc)
 int     year(time_t t);    // the year for the given time
 
 time_t now();              // return the current time as seconds since Jan 1 1970 
+#ifdef TIMELIB_ENABLE_MILLIS
 time_t now(uint32_t& sysTimeMillis); // return the current time as seconds and milliseconds since Jan 1 1970
+#endif
 void    setTime(time_t t);
 void    setTime(int hr,int min,int sec,int day, int month, int yr);
 void    adjustTime(long adjustment);
