@@ -35,6 +35,9 @@
 
 #include "TimeLib.h"
 
+// Convert days since epoch to week day. Sunday is day 1.
+#define DAYS_TO_WDAY(x) (((x) + 4) % 7) + 1
+
 static tmElements_t cacheElements;   // a cache of time elements
 static time_t cacheTime;   // the time the cache was updated
 static uint32_t syncInterval = 300;  // time sync will be attempted after this many seconds
@@ -178,7 +181,7 @@ void breakTime(time_t timeInput, tmElements_t &tm){
     return;
   }
 
-  tm.Wday = ((time + 4) % 7) + 1;  // Sunday is day 1 
+  tm.Wday = DAYS_TO_WDAY(time);
   
   year = 0;  
   days = 0;
@@ -310,6 +313,7 @@ void setTime(int hr,int min,int sec,int dy, int mnth, int yr){
   cacheElements.Minute = min;
   cacheElements.Second = sec;
   cacheTime = makeTime(cacheElements);
+  cacheElements.Wday = DAYS_TO_WDAY(cacheTime / SECS_PER_DAY);
   setTime(cacheTime);
 }
 
