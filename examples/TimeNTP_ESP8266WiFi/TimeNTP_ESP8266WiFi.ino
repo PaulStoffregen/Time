@@ -8,7 +8,7 @@
 #include <TimeLib.h>
 #include <ESP8266WiFi.h>
 #include <WiFiUdp.h>
-
+char buffer[10];
 const char ssid[] = "*************";  //  your network SSID (name)
 const char pass[] = "********";       // your network password
 
@@ -67,35 +67,26 @@ void loop()
   if (timeStatus() != timeNotSet) {
     if (now() != prevDisplay) { //update the display only if time has changed
       prevDisplay = now();
-      digitalClockDisplay();
+      printDigitalClock();
+      printDigitalDate();
+      Serial.println();
     }
   }
 }
 
-void digitalClockDisplay()
+void printDigitalClock()
 {
   // digital clock display of the time
-  Serial.print(hour());
-  printDigits(minute());
-  printDigits(second());
-  Serial.print(" ");
-  Serial.print(day());
-  Serial.print(".");
-  Serial.print(month());
-  Serial.print(".");
-  Serial.print(year());
-  Serial.println();
+  sprintf(buffer, " %02d:%02d:%02d", hour(), minute(), second());
+  Serial.print(buffer);
 }
 
-void printDigits(int digits)
+void printDigitalDate()
 {
-  // utility for digital clock display: prints preceding colon and leading 0
-  Serial.print(":");
-  if (digits < 10)
-    Serial.print('0');
-  Serial.print(digits);
+  // digital clock display of the time
+  sprintf(buffer, " %02d.%02d.%04d", day(), month(), year());
+  Serial.print(buffer);
 }
-
 /*-------- NTP code ----------*/
 
 const int NTP_PACKET_SIZE = 48; // NTP time is in the first 48 bytes of message
