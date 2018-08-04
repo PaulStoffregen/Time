@@ -319,3 +319,42 @@ void setSyncInterval(time_t interval){ // set the number of seconds between re-s
   syncInterval = (uint32_t)interval;
   nextSyncTime = sysTime + syncInterval;
 }
+
+
+int timeStart = 0; //indicates the position of last restart. Used as a refernce for our timer.
+int timeHold = 0; //indicates time since function was last run
+
+void timerReset() //resets the timer - equivalent of starting a new timer
+{
+	int timeStart = millis(); //update our refernce to current time. (Reset clock to now)
+}
+
+int timerNow() //returns how many ms have passed since last timerReset
+{
+	return (millis() - timeStart);
+}
+
+int timerSecond() //returns how many seconds have passed since last timerReset, notice this is an *integer* value
+{
+	return (millis() - timeStart)/1000;
+}
+
+int timerMin() //returns how many minutes have passed since last timerReset, notice this is an *integer* value
+{
+	return (millis() - timeStart) / 60000;
+}
+
+int timerMin() //returns how many hours have passed since last timerReset, notice this is an *integer* value
+{
+	return (millis() - timeStart) / 3600000;
+}
+
+void timerEvery(int interval, void (*functionPtr))
+{
+		if (timerNow() - timeHold >= interval)
+		{
+			//run function
+			(functionPtr);
+			timeHold = timerNow();
+		}
+}
