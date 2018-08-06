@@ -321,30 +321,30 @@ void setSyncInterval(time_t interval){ // set the number of seconds between re-s
 }
 
 
-int timeStart = 0; //indicates the position of last restart. Used as a refernce for our timer.
-int timeHold = 0; //indicates time since function was last run
+unsigned long timeStart = 0; //indicates the position of last restart. Used as a refernce for our timer.
+unsigned long timeHold = 0; //indicates time since function was last run
 
 void timerReset() //resets the timer - equivalent of starting a new timer
 {
-	int timeStart = millis(); //update our refernce to current time. (Reset clock to now)
+	timeStart = millis(); //update our refernce to current time. (Reset clock to now)
 }
 
-int timerNow() //returns how many ms have passed since last timerReset
+unsigned long timerNow() //returns how many ms have passed since last timerReset
 {
 	return (millis() - timeStart);
 }
 
-int timerSecond() //returns how many seconds have passed since last timerReset, notice this is an *integer* value
+unsigned long timerSecond() //returns how many seconds have passed since last timerReset, notice this is an *integer* value
 {
-	return (millis() - timeStart)/1000;
+	return (millis() - timeStart) / 1000;
 }
 
-int timerMin() //returns how many minutes have passed since last timerReset, notice this is an *integer* value
+unsigned long timerMin() //returns how many minutes have passed since last timerReset, notice this is an *integer* value
 {
 	return (millis() - timeStart) / 60000;
 }
 
-int timerHour() //returns how many hours have passed since last timerReset, notice this is an *integer* value
+unsigned long timerHour() //returns how many hours have passed since last timerReset, notice this is an *integer* value
 {
 	return (millis() - timeStart) / 3600000;
 }
