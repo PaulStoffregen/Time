@@ -10,13 +10,13 @@ time_t	KEYWORD1
 # Methods and Functions (KEYWORD2)
 #######################################
 
-timerReset KEYWORD2
-timerNow KEYWORD2
-timerSecond KEYWORD2
-timerMin KEYWORD2
-timerHour KEYWORD2
+timerReset	KEYWORD2
+timerNow	KEYWORD2
+timerSecond	KEYWORD2
+timerMin	KEYWORD2
+timerHour	KEYWORD2
 
-timerEvery KEYWORD2
+timerEvery	KEYWORD2
 
 
 now	KEYWORD2
