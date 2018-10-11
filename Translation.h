@@ -141,7 +141,6 @@
 	  const char dayOfWeekShort6[] PROGMEM = "FRE";
 	  const char dayOfWeekShort7[] PROGMEM = "SAM";
 
-
 	#elif defined ITALIAN_L
 	  const char month0[] PROGMEM = "ERR";
 	  const char month1[] PROGMEM = "GENNAIO";
@@ -188,7 +187,6 @@
 	  const char dayOfWeekShort5[] PROGMEM = "GIO";
 	  const char dayOfWeekShort6[] PROGMEM = "VEN";
 	  const char dayOfWeekShort7[] PROGMEM = "SAB";
-
 
 	#elif defined PORTUGUESE_L
 	  const char month0[] PROGMEM = "ERR";
@@ -237,7 +235,6 @@
 	  const char dayOfWeekShort6[] PROGMEM = "SEX";
 	  const char dayOfWeekShort7[] PROGMEM = "SAB";
 
-
 	#elif defined SPANISH_L
 	  const char month0[] PROGMEM = "ERR";
 	  const char month1[] PROGMEM = "ENERO";
@@ -284,7 +281,6 @@
 	  const char dayOfWeekShort5[] PROGMEM = "JUE";
 	  const char dayOfWeekShort6[] PROGMEM = "VIE";
 	  const char dayOfWeekShort7[] PROGMEM = "SAB";
-
 	#endif
 
 	const char* const monthTable[] PROGMEM =
