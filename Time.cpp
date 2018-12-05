@@ -116,7 +116,7 @@ int day(time_t t) { // the day for the given time (0-6)
 }
 
 int weekday() {   // Sunday is day 1
-  return  weekday(now()); 
+  return weekday(now()); 
 }
 
 int weekday(time_t t) {
@@ -148,26 +148,24 @@ int year(time_t t) { // the year for the given time
 
 // leap year calulator expects year argument as years offset from 1970
 #define LEAP_YEAR(Y)     ( ((1970+(Y))>0) && !((1970+(Y))%4) && ( ((1970+(Y))%100) || !((1970+(Y))%400) ) )
+#define daysInYear(year) ((time_t) (LEAP_YEAR(year) ? 366 : 365))
 
-static  const uint8_t monthDays[]={31,28,31,30,31,30,31,31,30,31,30,31}; // API starts months from 1, this array starts from 0
- 
-void breakTime(time_t timeInput, tmElements_t &tm){
+static const uint8_t monthDays[]={31,28,31,30,31,30,31,31,30,31,30,31}; // API starts months from 1, this array starts from 0
+
+void breakTime(time_t time, tmElements_t &tm){
 // break the given time_t into time components
 // this is a more compact version of the C library localtime function
 // note that year is offset from 1970 !!!
 
-  uint8_t year;
-  uint8_t month, monthLength;
-  uint32_t time;
-  unsigned long days;
+  uint8_t period;
+  time_t length;
 
-  time = (uint32_t)timeInput;
   tm.Second = time % 60;
   time /= 60; // now it is minutes
   tm.Minute = time % 60;
   time /= 60; // now it is hours
   tm.Hour = time % 24;
-  time /= 24; // now it is days
+  time /= 24; // now it is days since 1 Jan 1970
 
   // if the number of days since epoch matches cacheTime, then can take date
   // elements from cacheElements and avoid expensive calculation.
@@ -183,38 +181,26 @@ void breakTime(time_t timeInput, tmElements_t &tm){
 
   tm.Wday = DAYS_TO_WDAY(time);
   
-  year = 0;  
-  days = 0;
-  while((unsigned)(days += (LEAP_YEAR(year) ? 366 : 365)) <= time) {
-    year++;
+  period = 0;
+  while (time >= (length = daysInYear(period)))
+  {
+    time -= length;
+    period++;
   }
-  tm.Year = year; // year is offset from 1970 
-  
-  days -= LEAP_YEAR(year) ? 366 : 365;
-  time  -= days; // now it is days in this year, starting at 0
-  
-  days=0;
-  month=0;
-  monthLength=0;
-  for (month=0; month<12; month++) {
-    if (month==1) { // february
-      if (LEAP_YEAR(year)) {
-        monthLength=29;
-      } else {
-        monthLength=28;
-      }
-    } else {
-      monthLength = monthDays[month];
-    }
-    
-    if (time >= monthLength) {
-      time -= monthLength;
-    } else {
-        break;
-    }
+  tm.Year = period; // year is offset from 1970 
+  // time is now days since 1 Jan of the year
+
+  bool leap_year = LEAP_YEAR(period);
+  period = 0;
+  while (period < 12 && time >= (length = monthDays[period] + (leap_year && period==1)))
+  {
+    time -= length;
+    period++;
   }
-  tm.Month = month + 1;  // jan is month 1  
-  tm.Day = time + 1;     // day of month
+  tm.Month = period + 1;  // jan is month 1  
+  // time is now days since the 1st day of the month
+
+  tm.Day = time + 1;  // day of month
 }
 
 time_t makeTime(const tmElements_t &tm){   
@@ -226,7 +212,7 @@ time_t makeTime(const tmElements_t &tm){
   uint32_t seconds;
 
   // seconds from 1970 till 1 jan 00:00:00 of the given year
-  seconds= tm.Year*(SECS_PER_DAY * 365);
+  seconds = SECS_PER_DAY * (365 * tm.Year);
   for (i = 0; i < tm.Year; i++) {
     if (LEAP_YEAR(i)) {
       seconds +=  SECS_PER_DAY;   // add extra days for leap years
@@ -250,9 +236,9 @@ time_t makeTime(const tmElements_t &tm){
 /*=====================================================*/	
 /* Low level system time functions  */
 
-static uint32_t sysTime = 0;
+static time_t sysTime = 0;
 static uint32_t prevMillis = 0;
-static uint32_t nextSyncTime = 0;
+static time_t nextSyncTime = 0;
 static timeStatus_t Status = timeNotSet;
 
 getExternalTime getTimePtr;  // pointer to external sync function
@@ -284,7 +270,7 @@ time_t now() {
       }
     }
   }  
-  return (time_t)sysTime;
+  return sysTime;
 }
 
 void setTime(time_t t) { 
@@ -293,8 +279,8 @@ void setTime(time_t t) {
    sysUnsyncedTime = t;   // store the time of the first call to set a valid Time   
 #endif
 
-  sysTime = (uint32_t)t;  
-  nextSyncTime = (uint32_t)t + syncInterval;
+  sysTime = t;  
+  nextSyncTime = t + (time_t) syncInterval;
   Status = timeSet;
   prevMillis = millis();  // restart counting from now (thanks to Korman for this fix)
 } 
@@ -327,7 +313,7 @@ timeStatus_t timeStatus() {
   return Status;
 }
 
-void setSyncProvider( getExternalTime getTimeFunction){
+void setSyncProvider(getExternalTime getTimeFunction){
   getTimePtr = getTimeFunction;  
   nextSyncTime = sysTime;
   now(); // this will sync the clock
