@@ -90,10 +90,10 @@ illustrating how the library can be used with various time sources:
   if it is running and connected to the Arduino serial port.
 
 - `TimeSerialDateStrings.pde` adds day and month name strings to the sketch above
-  Short (3 character) and long strings are available to print the days of
+  Short (3 characters) and long strings are available to print the days of
   the week and names of the months.
 
-- `TimeRTC` uses a DS1307 real time clock to provide time synchronization.
+- `TimeRTC` uses a DS1307 real-time clock to provide time synchronization.
   A basic RTC library named DS1307RTC is included in the download.
   To run this sketch the DS1307RTC library must be installed.
 
