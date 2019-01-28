@@ -17,7 +17,9 @@
 #define PGM_P  const char *
 #define pgm_read_byte(addr) (*(const unsigned char *)(addr))
 #define pgm_read_word(addr) (*(const unsigned char **)(addr))
+#ifndef strcpy_P
 #define strcpy_P(dest, src) strcpy((dest), (src))
+#endif
 #endif
 #include <string.h> // for strcpy_P or strcpy
 #include "TimeLib.h"
