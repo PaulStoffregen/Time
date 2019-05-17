@@ -231,6 +231,24 @@ time_t makeTime(const tmElements_t &tm){
   seconds+= tm.Second;
   return (time_t)seconds; 
 }
+
+time_t makeTime(int yr, int mnth, int day, int hr, int min, int sec){
+	if (yr > 99){
+		yr = yr - 1970;
+	} else {
+		yr += 30;
+}
+
+tm.Year = yr;
+tm.Month = mnth;
+tm.Day = day;
+tm.Hour = hr;
+tm.Minute = min;
+tm.Second = sec;
+return makeTime(tm);
+}
+
+
 /*=====================================================*/	
 /* Low level system time functions  */
 
