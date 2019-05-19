@@ -239,13 +239,15 @@ time_t makeTime(int yr, int mnth, int day, int hr, int min, int sec){
 		yr += 30;
 }
 
-tm.Year = yr;
-tm.Month = mnth;
-tm.Day = day;
-tm.Hour = hr;
-tm.Minute = min;
-tm.Second = sec;
-return makeTime(tm);
+tmElements_t ntm;
+
+ntm.Year = yr;
+ntm.Month = mnth;
+ntm.Day = day;
+ntm.Hour = hr;
+ntm.Minute = min;
+ntm.Second = sec;
+return makeTime(ntm);
 }
 
 
