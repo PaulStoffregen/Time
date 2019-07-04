@@ -17,7 +17,7 @@
 #define PGM_P  const char *
 #define pgm_read_byte(addr) (*(const unsigned char *)(addr))
 #define pgm_read_word(addr) (*(const unsigned char **)(addr))
-#ifdef ESP8266
+#if defined(ESP8266) || defined(ARDUINO_ARCH_ESP32)
 #ifndef strcpy_P
 #define strcpy_P(dest, src) strcpy((dest), (src))
 #endif
