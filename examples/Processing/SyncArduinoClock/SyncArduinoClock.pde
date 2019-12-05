@@ -1,8 +1,17 @@
 /**
  * SyncArduinoClock. 
  *
+ * SyncArduinoClock is a Processing sketch that responds to Arduino
+ * requests for time synchronization messages.  Run this in the
+ * Processing environment (not in Arduino) on your PC or Mac.
+ *
+ * Download TimeSerial onto Arduino and you should see the time
+ * message displayed when you run SyncArduinoClock in Processing.
+ * The Arduino time is set from the time on your computer through the
+ * Processing sketch.
+ *
  * portIndex must be set to the port connected to the Arduino
- * 
+ *
  * The current time is sent in response to request message from Arduino 
  * or by clicking the display window 
  *

@@ -9,18 +9,18 @@
  * 
  */
 
-#if defined(__AVR__)
-#include <avr/pgmspace.h>
-#else
-// for compatiblity with Arduino Due and Teensy 3.0 and maybe others?
+#include <Arduino.h>
+
+// Arduino.h should properly define PROGMEM, PGM_P, strcpy_P, pgm_read_byte, pgm_read_ptr
+// But not all platforms define these as they should.  If you find a platform needing these
+// defined, or if any this becomes unnecessary as platforms improve, please send a pull req.
+#if defined(ESP8266)
+#undef PROGMEM
 #define PROGMEM
-#define PGM_P  const char *
-#define pgm_read_byte(addr) (*(const unsigned char *)(addr))
-#define pgm_read_word(addr) (*(const unsigned char **)(addr))
-#define strcpy_P(dest, src) strcpy((dest), (src))
 #endif
-#include <string.h> // for strcpy_P or strcpy
+
 #include "TimeLib.h"
+
  
 // the short strings for each day or month must be exactly dt_SHORT_STR_LEN
 #define dt_SHORT_STR_LEN  3 // the length of short strings
@@ -69,7 +69,7 @@ const char dayShortNames_P[] PROGMEM = "ErrSunMonTueWedThuFriSat";
 
 char* monthStr(uint8_t month)
 {
-    strcpy_P(buffer, (PGM_P)pgm_read_word(&(monthNames_P[month])));
+    strcpy_P(buffer, (PGM_P)pgm_read_ptr(&(monthNames_P[month])));
     return buffer;
 }
 
@@ -83,7 +83,7 @@ char* monthShortStr(uint8_t month)
 
 char* dayStr(uint8_t day) 
 {
-   strcpy_P(buffer, (PGM_P)pgm_read_word(&(dayNames_P[day])));
+   strcpy_P(buffer, (PGM_P)pgm_read_ptr(&(dayNames_P[day])));
    return buffer;
 }
 
