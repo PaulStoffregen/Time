@@ -144,7 +144,7 @@ The Time library defines a structure for holding time elements that is a compact
 All the members of the Arduino `tm` structure are bytes and the year is offset from 1970.
 Convenience macros provide conversion to and from the Arduino format.
 
-Low level functions to convert between system time and individual time elements are provided:
+Low-level functions to convert between system time and individual time elements are provided:
 
 ```c
 breakTime(time, &tm);  // break time_t into elements stored in tm struct
