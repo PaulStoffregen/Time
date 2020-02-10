@@ -148,7 +148,7 @@ Low level functions to convert between system time and individual time elements 
 
 ```c
 breakTime(time, &tm);  // break time_t into elements stored in tm struct
-makeTime(&tm);         // return time_t  from elements stored in tm struct
+makeTime(&tm);         // return time_t from elements stored in tm struct
 ```
 
 The DS1307RTC library included in the download provides an example of how a time provider
