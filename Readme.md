@@ -66,8 +66,8 @@ timeNeedsSync                    // the time had been set but a sync attempt did
 timeSet                          // the time is set and is synced
 ```
 
-Time and Date values are not valid if the status is timeNotSet. Otherwise, values can be used but
-the returned time may have drifted if the status is timeNeedsSync. 	
+Time and Date values are not valid if the status is `timeNotSet`. Otherwise, values can be used but
+the returned time may have drifted if the status is `timeNeedsSync`. 	
 
 ```c
 setSyncProvider(getTimeFunction);  // set the external time provider
@@ -140,8 +140,8 @@ See the sketches in the examples directory for usage.
 The default interval for re-syncing the time is 5 minutes but can be changed by calling the
 `setSyncInterval(interval)` method to set the number of seconds between re-sync attempts.
 
-The Time library defines a structure for holding time elements that is a compact version of the  C tm structure.
-All the members of the Arduino tm structure are bytes and the year is offset from 1970.
+The Time library defines a structure for holding time elements that is a compact version of the C `tm` structure.
+All the members of the Arduino `tm` structure are bytes and the year is offset from 1970.
 Convenience macros provide conversion to and from the Arduino format.
 
 Low level functions to convert between system time and individual time elements are provided:
