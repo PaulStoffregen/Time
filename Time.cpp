@@ -35,8 +35,8 @@
 
 #include "TimeLib.h"
 
-static tmElements_t tm;          // a cache of time elements
-static time_t cacheTime;   // the time the cache was updated
+static tmElements_t tm;              // a cache of time elements
+static time_t cacheTime;             // the time the cache was updated
 static uint32_t syncInterval = 300;  // time sync will be attempted after this many seconds
 
 void refreshCache(time_t t) {
@@ -103,7 +103,7 @@ int second(time_t t) {  // the second for the given time
   return tm.Second;
 }
 
-int day(){
+int day() {
   return(day(now())); 
 }
 
@@ -113,7 +113,7 @@ int day(time_t t) { // the day for the given time (0-6)
 }
 
 int weekday() {   // Sunday is day 1
-  return  weekday(now()); 
+  return weekday(now());
 }
 
 int weekday(time_t t) {
@@ -121,7 +121,7 @@ int weekday(time_t t) {
   return tm.Wday;
 }
    
-int month(){
+int month() {
   return month(now()); 
 }
 
@@ -148,7 +148,7 @@ int year(time_t t) { // the year for the given time
 
 static  const uint8_t monthDays[]={31,28,31,30,31,30,31,31,30,31,30,31}; // API starts months from 1, this array starts from 0
  
-void breakTime(time_t timeInput, tmElements_t &tm){
+void breakTime(time_t timeInput, tmElements_t &tm) {
 // break the given time_t into time components
 // this is a more compact version of the C library localtime function
 // note that year is offset from 1970 !!!
@@ -175,7 +175,7 @@ void breakTime(time_t timeInput, tmElements_t &tm){
   tm.Year = year; // year is offset from 1970 
   
   days -= LEAP_YEAR(year) ? 366 : 365;
-  time  -= days; // now it is days in this year, starting at 0
+  time -= days; // now it is days in this year, starting at 0
   
   days=0;
   month=0;
@@ -201,7 +201,7 @@ void breakTime(time_t timeInput, tmElements_t &tm){
   tm.Day = time + 1;     // day of month
 }
 
-time_t makeTime(const tmElements_t &tm){   
+time_t makeTime(const tmElements_t &tm) {
 // assemble time elements into time_t 
 // note year argument is offset from 1970 (see macros in time.h to convert to other formats)
 // previous version used full four digit year (or digits since 2000),i.e. 2009 was 2009 or 9
@@ -283,7 +283,7 @@ void setTime(time_t t) {
   prevMillis = millis();  // restart counting from now (thanks to Korman for this fix)
 } 
 
-void setTime(int hr,int min,int sec,int dy, int mnth, int yr){
+void setTime(int hr,int min,int sec,int dy, int mnth, int yr) {
  // year can be given as full four digit year or two digts (2010 or 10 for 2010);  
  //it is converted to years since 1970
   if( yr > 99)
@@ -309,13 +309,13 @@ timeStatus_t timeStatus() {
   return Status;
 }
 
-void setSyncProvider( getExternalTime getTimeFunction){
+void setSyncProvider( getExternalTime getTimeFunction) {
   getTimePtr = getTimeFunction;  
   nextSyncTime = sysTime;
   now(); // this will sync the clock
 }
 
-void setSyncInterval(time_t interval){ // set the number of seconds between re-sync
+void setSyncInterval(time_t interval) { // set the number of seconds between re-sync
   syncInterval = (uint32_t)interval;
   nextSyncTime = sysTime + syncInterval;
 }

@@ -117,7 +117,7 @@ int     month(time_t t);   // the month for the given time
 int     year();            // the full four digit year: (2009, 2010 etc) 
 int     year(time_t t);    // the year for the given time
 
-time_t now();              // return the current time as seconds since Jan 1 1970 
+time_t  now();             // return the current time as seconds since Jan 1 1970
 void    setTime(time_t t);
 void    setTime(int hr,int min,int sec,int day, int month, int yr);
 void    adjustTime(long adjustment);
