@@ -14,6 +14,12 @@ for time synchronization.
 
 ## Functionality
 
+To use the Time library in an Arduino sketch, include TimeLib.h.
+
+```c
+#include <TimeLib.h>
+```
+
 The functions available in the library include
 
 ```c
