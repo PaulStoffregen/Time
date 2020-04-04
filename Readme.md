@@ -2,6 +2,8 @@
 
 Time is a library that provides timekeeping functionality for Arduino.
 
+Using the Arduino Library Manager, install "*Time* by *Michael Margolis*".
+
 The code is derived from the Playground DateTime library but is updated
 to provide an API that is more flexible and easier to use.
 
