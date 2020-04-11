@@ -181,14 +181,11 @@ void breakTime(time_t timeInput, tmElements_t &tm){
   month=0;
   monthLength=0;
   for (month=0; month<12; month++) {
-    if (month==1) { // february
+    monthLength = monthDays[month];
+    if (month == 1) {
       if (LEAP_YEAR(year)) {
-        monthLength=29;
-      } else {
-        monthLength=28;
+        monthLength++;
       }
-    } else {
-      monthLength = monthDays[month];
     }
     
     if (time >= monthLength) {
