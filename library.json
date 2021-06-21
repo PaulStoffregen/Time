@@ -17,7 +17,7 @@
         "type": "git",
          "url": "https://github.com/PaulStoffregen/Time"
     },
-    "version": "1.6",
+    "version": "1.6.1",
     "homepage": "http://playground.arduino.cc/Code/Time",
     "frameworks": "Arduino",
     "examples": [
