@@ -10,6 +10,7 @@ time_t	KEYWORD1
 # Methods and Functions (KEYWORD2)
 #######################################
 now	KEYWORD2
+millisecond	KEYWORD2
 second	KEYWORD2
 minute	KEYWORD2
 hour	KEYWORD2
