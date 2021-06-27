@@ -46,20 +46,20 @@ void refreshCache(time_t t) {
   }
 }
 
-int hour() { // the hour now 
+uint8_t hour() { // the hour now 
   return hour(now()); 
 }
 
-int hour(time_t t) { // the hour for the given time
+uint8_t hour(time_t t) { // the hour for the given time
   refreshCache(t);
   return tm.Hour;  
 }
 
-int hourFormat12() { // the hour now in 12 hour format
+uint8_t hourFormat12() { // the hour now in 12 hour format
   return hourFormat12(now()); 
 }
 
-int hourFormat12(time_t t) { // the hour for the given time in 12 hour format
+uint8_t hourFormat12(time_t t) { // the hour for the given time in 12 hour format
   refreshCache(t);
   if( tm.Hour == 0 )
     return 12; // 12 midnight
@@ -85,47 +85,47 @@ uint8_t isPM(time_t t) { // returns true if PM
   return (hour(t) >= 12); 
 }
 
-int minute() {
+uint8_t minute() {
   return minute(now()); 
 }
 
-int minute(time_t t) { // the minute for the given time
+uint8_t minute(time_t t) { // the minute for the given time
   refreshCache(t);
   return tm.Minute;  
 }
 
-int second() {
+uint8_t second() {
   return second(now()); 
 }
 
-int second(time_t t) {  // the second for the given time
+uint8_t second(time_t t) {  // the second for the given time
   refreshCache(t);
   return tm.Second;
 }
 
-int day(){
+uint8_t day(){
   return(day(now())); 
 }
 
-int day(time_t t) { // the day for the given time (0-6)
+uint8_t day(time_t t) { // the day for the given time (0-6)
   refreshCache(t);
   return tm.Day;
 }
 
-int weekday() {   // Sunday is day 1
+uint8_t weekday() {   // Sunday is day 1
   return  weekday(now()); 
 }
 
-int weekday(time_t t) {
+uint8_t weekday(time_t t) {
   refreshCache(t);
   return tm.Wday;
 }
    
-int month(){
+uint8_t month(){
   return month(now()); 
 }
 
-int month(time_t t) {  // the month for the given time
+uint8_t month(time_t t) {  // the month for the given time
   refreshCache(t);
   return tm.Month;
 }
@@ -318,4 +318,4 @@ void setSyncProvider( getExternalTime getTimeFunction){
 void setSyncInterval(time_t interval){ // set the number of seconds between re-sync
   syncInterval = (uint32_t)interval;
   nextSyncTime = sysTime + syncInterval;
-}
+} 
