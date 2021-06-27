@@ -1,3 +1,24 @@
+# Fork Edit
+
+This library has been modified to achieve timer capabilities. This includes
+checking elapsed time from a certain point and running functions after a set interval
+of time.
+
+The following functions have been added:
+```c
+timerReset();        //resets the timer - equivalent of starting a new timer.
+timerNow();          //returns how many ms have passed since last timerReset
+timerSecond();       //returns how many seconds have passed since last timerReset, returns integer value
+timerMin();          //returns how many minutes have passed since last timerReset, returns integer value
+timerMin();          //returns how many hours have passed since last timerReset,  returns integer value
+timerEvery(interval,functionToRun); //runs function every set interval
+```
+Note that the timer is reset on every board RESET. If timer is never reset, it'll be equivalent to millis()
+
+`timerEvery()` takes two parameters, first is interval duration in milliseconds, and the other is the function to run.
+The `functionToRun` can NOT TAKE PARAMETERS and should return void.
+If you want to pass a functionA that does take parameters, consider wrapping the functionA in another functionB that doesn't take parameters and simply runs functionA.
+
 # Arduino Time Library
 
 Time is a library that provides timekeeping functionality for Arduino.
