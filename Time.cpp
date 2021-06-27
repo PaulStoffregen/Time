@@ -237,6 +237,7 @@ time_t makeTime(const tmElements_t &tm){
 static uint32_t sysTime = 0;
 static uint32_t prevMillis = 0;
 static uint32_t nextSyncTime = 0;
+static uint32_t lastSyncTime = 0;
 static timeStatus_t Status = timeNotSet;
 
 getExternalTime getTimePtr;  // pointer to external sync function
@@ -248,9 +249,9 @@ time_t sysUnsyncedTime = 0; // the time sysTime unadjusted by sync
 
 
 time_t now() {
-	// calculate number of seconds passed since last call to now()
+  // calculate number of seconds passed since last call to now()
   while (millis() - prevMillis >= 1000) {
-		// millis() and prevMillis are both unsigned ints thus the subtraction will always be the absolute value of the difference
+    // millis() and prevMillis are both unsigned ints thus the subtraction will always be the absolute value of the difference
     sysTime++;
     prevMillis += 1000;	
 #ifdef TIME_DRIFT_INFO
@@ -262,9 +263,13 @@ time_t now() {
       time_t t = getTimePtr();
       if (t != 0) {
         setTime(t);
+      } else if(timeNotSet == Status) {
+        // getTimePtr returned 0 and time has not yet been set, i.e. this was not
+        // a temporarily failure, we have not been able to sync at all.
+        // Do nothing so a new attempt to sync will be made next time now() is called.
       } else {
         nextSyncTime = sysTime + syncInterval;
-        Status = (Status == timeNotSet) ?  timeNotSet : timeNeedsSync;
+        Status = timeNeedsSync;
       }
     }
   }  
@@ -277,7 +282,8 @@ void setTime(time_t t) {
    sysUnsyncedTime = t;   // store the time of the first call to set a valid Time   
 #endif
 
-  sysTime = (uint32_t)t;  
+  sysTime = (uint32_t)t;
+	lastSyncTime = (uint32_t)t;
   nextSyncTime = (uint32_t)t + syncInterval;
   Status = timeSet;
   prevMillis = millis();  // restart counting from now (thanks to Korman for this fix)
@@ -318,4 +324,8 @@ void setSyncProvider( getExternalTime getTimeFunction){
 void setSyncInterval(time_t interval){ // set the number of seconds between re-sync
   syncInterval = (uint32_t)interval;
   nextSyncTime = sysTime + syncInterval;
+}
+
+time_t getLastSyncTime(){
+	return (time_t)lastSyncTime;
 }
