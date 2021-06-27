@@ -25,6 +25,8 @@ setSyncProvider	KEYWORD2
 setSyncInterval	KEYWORD2
 timeStatus	KEYWORD2
 TimeLib	KEYWORD2
+convertToTimeLib	KEYWORD2
+convertToTimeH	KEYWORD2
 #######################################
 # Instances (KEYWORD2)
 #######################################
