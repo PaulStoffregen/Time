@@ -258,15 +258,15 @@ time_t now() {
 #endif
   }
   if (nextSyncTime <= sysTime) {
+    Status = (Status == timeNotSet) ?  timeNotSet : timeNeedsSync;
     if (getTimePtr != 0) {
       time_t t = getTimePtr();
       if (t != 0) {
         setTime(t);
-      } else {
-        nextSyncTime = sysTime + syncInterval;
-        Status = (Status == timeNotSet) ?  timeNotSet : timeNeedsSync;
+        Status = timeSet;
       }
     }
+    nextSyncTime = sysTime + syncInterval;
   }  
   return (time_t)sysTime;
 }
