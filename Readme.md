@@ -70,7 +70,9 @@ adjustTime(adjustment);          // adjust system time by adding the adjustment 
 timeStatus();                    // indicates if time has been set and recently synchronized
                                  // returns one of the following enumerations:
 timeNotSet                       // the time has never been set, the clock started on Jan 1, 1970
-timeNeedsSync                    // the time had been set but a sync attempt did not succeed
+timeNeedsSync                    // the time had been set
+                                 // if setSyncProvider was called then a sync attempt did not succeed
+                                 // else the sync interval has passed since the last time sync
 timeSet                          // the time is set and is synced
 ```
 
@@ -119,6 +121,13 @@ illustrating how the library can be used with various time sources:
 - `TimeGPS` gets time from a GPS.
   This requires the TinyGPS library from Mikal Hart:
   <http://arduiniana.org/libraries/TinyGPS>
+
+- `TimeGPS_Neo` gets time from a GPS.
+  This requires the NeoGPS library from SlashDevin:
+  <https://github.com/SlashDevin/NeoGPS>
+  The example demonstrates how to set the time from the GPS when the time is not set
+  or the sync interval has lapsed. The Sync Interval is 300 seconds or 5 minutes by
+  default and may be changed by calling setSyncInterval(interval) where interval is seconds.
 
 ## Differences
 
