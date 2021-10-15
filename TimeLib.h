@@ -43,7 +43,7 @@ typedef enum {
 } tmByteFields;	   
 
 typedef struct  { 
-  uint8_t Second; 
+  double Second; 
   uint8_t Minute; 
   uint8_t Hour; 
   uint8_t Wday;   // day of week, sunday is day 1
@@ -106,8 +106,8 @@ uint8_t isPM();            // returns true if time now is PM
 uint8_t isPM(time_t t);    // returns true the given time is PM
 int     minute();          // the minute now 
 int     minute(time_t t);  // the minute for the given time
-int     second();          // the second now 
-int     second(time_t t);  // the second for the given time
+double     second();          // the second now 
+double     second(time_t t);  // the second for the given time
 int     day();             // the day now 
 int     day(time_t t);     // the day for the given time
 int     weekday();         // the weekday now (Sunday is day 1) 
