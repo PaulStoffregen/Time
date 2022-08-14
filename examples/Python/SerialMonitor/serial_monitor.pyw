@@ -16,12 +16,11 @@ from tkinter import messagebox as msgbox
 import serial
 import serial.tools.list_ports as list_ports
 import time
+from datetime import datetime
 import json
 
 TIME_HEADER = 'T'
 TIME_REQUEST = 0x07
-ZONE_OFFSET = 8
-DAYLIGHT = 0
 
 def get_str_of_chr(chr_in_byte):
 	cd = ord(chr_in_byte)
@@ -149,7 +148,9 @@ def sendCmd(event):
 		txText.delete(0, tk.END)
 
 def getTimeNow():
-	return (int(time.time()) + (ZONE_OFFSET+DAYLIGHT)*3600)
+	ts = time.time()
+	utc_offset = (datetime.fromtimestamp(ts) - datetime.utcfromtimestamp(ts)).total_seconds()
+	return (int(ts) + int(utc_offset))
 
 def sendTimeMessage(header, time):
 	txt = str(f'{header}'+f'{time}')
