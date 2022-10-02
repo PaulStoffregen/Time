@@ -2,6 +2,8 @@
 
 Time is a library that provides timekeeping functionality for Arduino.
 
+Using the Arduino Library Manager, install "*Time* by *Michael Margolis*".
+
 The code is derived from the Playground DateTime library but is updated
 to provide an API that is more flexible and easier to use.
 
@@ -13,6 +15,12 @@ internet NTP time service, GPS time data, and Serial time messages from a comput
 for time synchronization.
 
 ## Functionality
+
+To use the Time library in an Arduino sketch, include TimeLib.h.
+
+```c
+#include <TimeLib.h>
+```
 
 The functions available in the library include
 
@@ -75,8 +83,8 @@ timeNeedsSync                    // the time had been set but a sync attempt did
 timeSet                          // the time is set and is synced
 ```
 
-Time and Date values are not valid if the status is timeNotSet. Otherwise, values can be used but
-the returned time may have drifted if the status is timeNeedsSync. 	
+Time and Date values are not valid if the status is `timeNotSet`. Otherwise, values can be used but
+the returned time may have drifted if the status is `timeNeedsSync`. 	
 
 ```c
 setSyncProvider(getTimeFunction);  // set the external time provider
@@ -98,15 +106,15 @@ illustrating how the library can be used with various time sources:
   A companion Processing sketch will automatically provide these messages
   if it is running and connected to the Arduino serial port.
 
-- `TimeSerialDateStrings.pde` adds day and month name strings to the sketch above
+- `TimeSerialDateStrings.pde` adds day and month name strings to the sketch above.
   Short (3 characters) and long strings are available to print the days of
   the week and names of the months.
 
 - `TimeRTC` uses a DS1307 real-time clock to provide time synchronization.
-  A basic RTC library named DS1307RTC is included in the download.
-  To run this sketch the DS1307RTC library must be installed.
+  The basic [DS1307RTC library][1] must be downloaded and installed,
+  in order to run this sketch.
 
-- `TimeRTCSet` is similar to the above and adds the ability to set the Real Time Clock
+- `TimeRTCSet` is similar to the above and adds the ability to set the Real Time Clock.
 
 - `TimeRTCLog` demonstrates how to calculate the difference between times.
   It is a very simple logger application that monitors events on digital pins
@@ -115,11 +123,11 @@ illustrating how the library can be used with various time sources:
 
 - `TimeNTP` uses the Arduino Ethernet shield to access time using the internet NTP time service.
   The NTP protocol uses UDP and the UdpBytewise library is required, see:
-  http://bitbucket.org/bjoern/arduino_osc/src/14667490521f/libraries/Ethernet/
+  <http://bitbucket.org/bjoern/arduino_osc/src/14667490521f/libraries/Ethernet/>
 
-- `TimeGPS` gets time from a GPS
+- `TimeGPS` gets time from a GPS.
   This requires the TinyGPS library from Mikal Hart:
-  http://arduiniana.org/libraries/TinyGPS
+  <http://arduiniana.org/libraries/TinyGPS>
 
 ## Differences
 
@@ -135,7 +143,7 @@ Changes in the Time library API:
 - function added to automatically sync time with external source
 - `localTime` and `maketime` parameters changed, `localTime` renamed to `breakTime`
 
-## Technical notes:
+## Technical Notes
 
 Internal system time is based on the standard Unix `time_t`.
 The value is the number of seconds since Jan 1, 1970.
@@ -149,16 +157,18 @@ See the sketches in the examples directory for usage.
 The default interval for re-syncing the time is 5 minutes but can be changed by calling the
 `setSyncInterval(interval)` method to set the number of seconds between re-sync attempts.
 
-The Time library defines a structure for holding time elements that is a compact version of the  C tm structure.
-All the members of the Arduino tm structure are bytes and the year is offset from 1970.
+The Time library defines a structure for holding time elements that is a compact version of the C `tm` structure.
+All the members of the Arduino `tm` structure are bytes and the year is offset from 1970.
 Convenience macros provide conversion to and from the Arduino format.
 
-Low level functions to convert between system time and individual time elements are provided:
+Low-level functions to convert between system time and individual time elements are provided:
 
 ```c
 breakTime(time, &tm);  // break time_t into elements stored in tm struct
-makeTime(&tm);         // return time_t  from elements stored in tm struct
+makeTime(&tm);         // return time_t from elements stored in tm struct
 ```
 
-The DS1307RTC library included in the download provides an example of how a time provider
+This [DS1307RTC library][1] provides an example of how a time provider
 can use the low-level functions to interface with the Time library.
+
+[1]:<https://github.com/PaulStoffregen/DS1307RTC>

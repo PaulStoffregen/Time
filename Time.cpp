@@ -151,9 +151,9 @@ int year(time_t t) { // the year for the given time
 
 /*============================================================================*/	
 /* functions to convert to and from system time */
-/* These are for interfacing with time serivces and are not normally needed in a sketch */
+/* These are for interfacing with time services and are not normally needed in a sketch */
 
-// leap year calulator expects year argument as years offset from 1970
+// leap year calculator expects year argument as years offset from 1970
 #define LEAP_YEAR(Y)     ( ((1970+(Y))>0) && !((1970+(Y))%4) && ( ((1970+(Y))%100) || !((1970+(Y))%400) ) )
 #define daysInYear(year) ((time_t) (LEAP_YEAR(year) ? 366 : 365))
 
@@ -222,7 +222,7 @@ time_t makeTime(const tmElements_t &tm){
   seconds = SECS_PER_DAY * (365 * tm.Year);
   for (i = 0; i < tm.Year; i++) {
     if (LEAP_YEAR(i)) {
-      seconds +=  SECS_PER_DAY;   // add extra days for leap years
+      seconds += SECS_PER_DAY;   // add extra days for leap years
     }
   }
   
