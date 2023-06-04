@@ -120,7 +120,30 @@ int weekday(time_t t) {
   refreshCache(t);
   return tm.Wday;
 }
-   
+
+int yearday(time_t t) {
+  tmElements_t tm;
+  breakTime(t, tm);
+  uint32_t y = tm.Year;
+  int m = tm.Month;
+  int d = tm.Day;
+
+  #define LEAP_YEAR(Y)     ( ((0+(Y))>0) && !((1970+(Y))%4) && ( ((1970+(Y))%100) || !((1970+(Y))%400) ) )
+
+  static  const uint8_t monthDays[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31}; // API starts months from 1, this array starts from 0
+
+  uint16_t days = d;
+  for (uint8_t i = 1; i < m; i++)
+    days += monthDays[i - 1];
+  if (m > 2 && LEAP_YEAR(y))
+    days++;
+  return days;
+}
+
+int yearday() {
+  return yearday(now());
+}
+
 int month(){
   return month(now()); 
 }
