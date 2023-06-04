@@ -112,6 +112,8 @@ int     day();             // the day now
 int     day(time_t t);     // the day for the given time
 int     weekday();         // the weekday now (Sunday is day 1) 
 int     weekday(time_t t); // the weekday for the given time 
+int     yearday();         // the yearday now
+int     yearday(time_t t); // the yearday for the given time
 int     month();           // the month now  (Jan is month 1)
 int     month(time_t t);   // the month for the given time
 int     year();            // the full four digit year: (2009, 2010 etc) 
