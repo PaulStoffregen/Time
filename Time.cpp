@@ -252,10 +252,10 @@ time_t now() {
   // millis() and prevMillis are both unsigned ints thus the subtraction will always be the absolute value of the difference
   unsigned long passed_msec = millis() - prevMillis;
   if (passed_msec >= 1000){
-    sysTime += passed_msec / 1000ULL;
+    sysTime += passed_msec / 1000UL;
     prevMillis += passed_msec;	
 #ifdef TIME_DRIFT_INFO
-    sysUnsyncedTime += passed_msec / 1000ULL; // this can be compared to the synced time to measure long term drift     
+    sysUnsyncedTime += passed_msec / 1000UL; // this can be compared to the synced time to measure long term drift     
 #endif
   }
   if (nextSyncTime <= sysTime) {
