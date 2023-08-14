@@ -248,13 +248,14 @@ time_t sysUnsyncedTime = 0; // the time sysTime unadjusted by sync
 
 
 time_t now() {
-	// calculate number of seconds passed since last call to now()
-  while (millis() - prevMillis >= 1000) {
-		// millis() and prevMillis are both unsigned ints thus the subtraction will always be the absolute value of the difference
-    sysTime++;
-    prevMillis += 1000;	
+  // calculate number of seconds passed since last call to now()
+  // millis() and prevMillis are both unsigned ints thus the subtraction will always be the absolute value of the difference
+  unsigned long passed_sec = (millis() - prevMillis) / 1000UL;
+  if (passed_sec >= 1000){
+    sysTime += passed_sec;
+    prevMillis += passed_sec * 1000UL;
 #ifdef TIME_DRIFT_INFO
-    sysUnsyncedTime++; // this can be compared to the synced time to measure long term drift     
+    sysUnsyncedTime += passed_sec; // this can be compared to the synced time to measure long term drift     
 #endif
   }
   if (nextSyncTime <= sysTime) {
