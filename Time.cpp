@@ -208,14 +208,16 @@ time_t makeTime(const tmElements_t &tm){
   
   int i;
   uint32_t seconds;
-
+ // Serial.println("start");
   // seconds from 1970 till 1 jan 00:00:00 of the given year
   seconds= tm.Year*(SECS_PER_DAY * 365);
+ // Serial.println(seconds);
   for (i = 0; i < tm.Year; i++) {
     if (LEAP_YEAR(i)) {
       seconds += SECS_PER_DAY;   // add extra days for leap years
     }
   }
+ // Serial.println(seconds);
   
   // add days for this year, months start from 1
   for (i = 1; i < tm.Month; i++) {
@@ -225,10 +227,16 @@ time_t makeTime(const tmElements_t &tm){
       seconds += SECS_PER_DAY * monthDays[i-1];  //monthDay array starts from 0
     }
   }
-  seconds+= (tm.Day-1) * SECS_PER_DAY;
+ // Serial.println(seconds);
+  seconds+= (tm.Day!=0?(tm.Day-1):0) * SECS_PER_DAY;
+  // Serial.println(seconds);
   seconds+= tm.Hour * SECS_PER_HOUR;
+  // Serial.println(seconds);
   seconds+= tm.Minute * SECS_PER_MIN;
+ //  Serial.println(seconds);
   seconds+= tm.Second;
+ //   Serial.println(seconds);
+  //  Serial.println("end");
   return (time_t)seconds; 
 }
 /*=====================================================*/	
