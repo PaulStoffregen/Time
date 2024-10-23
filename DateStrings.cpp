@@ -19,6 +19,11 @@
 #define PROGMEM
 #endif
 
+#if defined(ARDUINO_ARM_ClearCore)
+#undef pgm_read_ptr(addr)
+#define pgm_read_ptr(addr) (*(const char *)(addr))
+#endif
+
 #include "TimeLib.h"
 
  
