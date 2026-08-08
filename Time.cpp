@@ -152,6 +152,21 @@ void breakTime(time_t timeInput, tmElements_t &tm){
 // break the given time_t into time components
 // this is a more compact version of the C library localtime function
 // note that year is offset from 1970 !!!
+#ifdef USING_POSIX_TIME
+  struct tm *tm_info = gmtime(&timeInput);
+  if (!tm_info)
+  return;
+
+  tm.Year   = tm_info->tm_year -70;
+  tm.Month  = tm_info->tm_mon + 1;
+  tm.Day    = tm_info->tm_mday;
+  tm.Wday = tm_info->tm_wday + 1;
+  tm.Hour   = tm_info->tm_hour;
+  tm.Minute = tm_info->tm_min;
+  tm.Second = tm_info->tm_sec;
+  return;
+
+#endif
 
   uint8_t year;
   uint8_t month, monthLength;
@@ -206,6 +221,20 @@ time_t makeTime(const tmElements_t &tm){
 // note year argument is offset from 1970 (see macros in time.h to convert to other formats)
 // previous version used full four digit year (or digits since 2000),i.e. 2009 was 2009 or 9
   
+#ifdef USING_POSIX_TIME
+  struct tm tm_info{};
+
+  tm_info.tm_year = tm.Year + 70;
+  tm_info.tm_mon  = tm.Month - 1;
+  tm_info.tm_mday = tm.Day;
+  tm_info.tm_hour = tm.Hour;
+  tm_info.tm_min  = tm.Minute;
+  tm_info.tm_sec  = tm.Second;
+
+  return mktime(&tm_info);
+
+#endif
+
   int i;
   uint32_t seconds;
 
@@ -267,11 +296,15 @@ time_t now() {
         Status = (Status == timeNotSet) ?  timeNotSet : timeNeedsSync;
       }
     }
-  }  
+  }
+#ifdef USING_POSIX_TIME
+  return time(nullptr);
+#endif
   return (time_t)sysTime;
 }
 
-void setTime(time_t t) { 
+void setTime(time_t t) {
+
 #ifdef TIME_DRIFT_INFO
  if(sysUnsyncedTime == 0) 
    sysUnsyncedTime = t;   // store the time of the first call to set a valid Time   
@@ -281,6 +314,9 @@ void setTime(time_t t) {
   nextSyncTime = (uint32_t)t + syncInterval;
   Status = timeSet;
   prevMillis = millis();  // restart counting from now (thanks to Korman for this fix)
+#ifdef USING_POSIX_TIME
+  TimeLibPlatformSetTime(t);
+#endif
 } 
 
 void setTime(int hr,int min,int sec,int dy, int mnth, int yr){
@@ -300,6 +336,12 @@ void setTime(int hr,int min,int sec,int dy, int mnth, int yr){
 }
 
 void adjustTime(long adjustment) {
+#ifdef USING_POSIX_TIME
+  time_t t = time(nullptr);
+  t += adjustment;
+  set_time(t);
+  return;
+#endif
   sysTime += adjustment;
 }
 

@@ -22,6 +22,23 @@ typedef unsigned long time_t;
 #endif
 
 
+/*
+ * Use the platform system clock when POSIX time support is available.
+ * Platform-specific clock-setting functions are mapped here.
+ */
+#if defined(__NEWLIB__)
+#define USING_POSIX_TIME
+
+#if defined(ARDUINO_ARCH_MBED)
+#include <mbed_rtc_time.h>
+#define TimeLibPlatformSetTime(t) set_time(t)
+#else
+#warning "Using newlib time functions, find the right header to include set_time(t)"
+#endif // ARDUINO_ARCH_MBED
+
+#endif //__NEWLIB__
+
+
 // This ugly hack allows us to define C++ overloaded functions, when included
 // from within an extern "C", as newlib's sys/stat.h does.  Actually it is
 // intended to include "time.h" from the C library (on ARM, but AVR does not
